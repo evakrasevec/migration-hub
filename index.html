@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SiPhox Migration Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ink: #0a1628;
+    --ink-soft: #1a2942;
+    --paper: #fafaf7;
+    --paper-warm: #f5f3ec;
+    --accent: #00d4aa;
+    --accent-soft: #c8f5e9;
+    --coral: #ff6b5b;
+    --gold: #f4b942;
+    --line: rgba(10, 22, 40, 0.08);
+    --line-strong: rgba(10, 22, 40, 0.16);
+    --shadow-sm: 0 1px 2px rgba(10, 22, 40, 0.04);
+    --shadow-md: 0 4px 16px rgba(10, 22, 40, 0.06);
+    --shadow-lg: 0 12px 40px rgba(10, 22, 40, 0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+    font-feature-settings: "ss01", "cv11";
+    overflow-x: hidden;
+  }
+
+  /* Decorative grain texture */
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  }
+
+  /* === Header === */
+  header {
+    position: relative;
+    padding: 1.5rem 5vw 1.25rem;
+    border-bottom: 1px solid var(--line);
+    z-index: 10;
+    background: var(--paper);
+  }
+
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
+  }
+
+  .brand-mark {
+    width: 32px;
+    height: 32px;
+    background: var(--ink);
+    color: var(--accent);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.85rem;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  /* === Hero === */
+  .hero {
+    position: relative;
+    padding: 3rem 5vw 2.5rem;
+    z-index: 5;
+  }
+
+  .hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    max-width: 56rem;
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+
+  .hero h1 strong {
+    font-weight: 700;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 36rem;
+  }
+
+  /* === Search === */
+  .search-section {
+    padding: 0 5vw;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 5;
+  }
+
+  .search-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .search-wrap {
+    position: relative;
+    background: white;
+    border: 2px solid var(--ink);
+    border-radius: 1rem;
+    padding: 0.5rem;
+    box-shadow: var(--shadow-md);
+    transition: box-shadow 0.3s, transform 0.2s;
+  }
+
+  .search-wrap:focus-within {
+    box-shadow: 0 8px 32px rgba(0, 212, 170, 0.15), 0 0 0 4px var(--accent-soft);
+    transform: translateY(-2px);
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 1rem 1.25rem 1rem 3.5rem;
+    border: none;
+    background: transparent;
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    outline: none;
+  }
+
+  .search-input::placeholder {
+    color: rgba(10, 22, 40, 0.4);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    color: var(--ink);
+    opacity: 0.6;
+  }
+
+  .quick-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    align-items: center;
+  }
+
+  .quick-tags-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-right: 0.5rem;
+  }
+
+  .tag {
+    padding: 0.45rem 0.85rem;
+    background: white;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .tag:hover {
+    background: var(--ink);
+    color: var(--paper);
+    transform: translateY(-1px);
+  }
+
+  /* === Quick Actions === */
+  .actions {
+    padding: 0 5vw 4rem;
+    position: relative;
+    z-index: 5;
+  }
+
+  .actions-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--ink);
+  }
+
+  .actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .action-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+    font-family: inherit;
+    color: inherit;
+  }
+
+  .action-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 0%, var(--accent-soft) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .action-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--ink);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .action-card:hover::before {
+    opacity: 0.5;
+  }
+
+  .action-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .action-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+  }
+
+  .action-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .action-desc {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .action-arrow {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    display: grid;
+    place-items: center;
+    transition: transform 0.3s;
+  }
+
+  .action-card:hover .action-arrow {
+    transform: rotate(-45deg) scale(1.1);
+    background: var(--accent);
+    color: var(--ink);
+  }
+
+  /* === Sections === */
+  main {
+    position: relative;
+    z-index: 5;
+  }
+
+  .section {
+    padding: 3rem 5vw;
+    border-top: 1px solid var(--line);
+  }
+
+  .section-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .section h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.75rem;
+  }
+
+  .section h2 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .section-intro {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    max-width: 38rem;
+    margin-bottom: 3rem;
+  }
+
+  /* === FAQ Accordion === */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .faq-item {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .faq-item.open {
+    border-color: var(--ink);
+    box-shadow: var(--shadow-md);
+  }
+
+  .faq-question {
+    width: 100%;
+    padding: 1.5rem 1.75rem;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink);
+    transition: color 0.2s;
+  }
+
+  .faq-question:hover {
+    color: var(--accent);
+  }
+
+  .faq-toggle {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--paper-warm);
+    display: grid;
+    place-items: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .faq-item.open .faq-toggle {
+    background: var(--ink);
+    color: var(--accent);
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .faq-answer-inner {
+    padding: 0 1.75rem 1.75rem;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  .faq-answer-inner p { margin-bottom: 0.85rem; }
+  .faq-answer-inner p:last-child { margin-bottom: 0; }
+  .faq-answer-inner strong { color: var(--ink); font-weight: 600; }
+
+  .faq-answer-inner ol,
+  .faq-answer-inner ul {
+    margin: 0.5rem 0 0.85rem 1.5rem;
+    padding-left: 0;
+  }
+
+  .faq-answer-inner li {
+    margin-bottom: 0.4rem;
+  }
+
+  .faq-answer-inner code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--paper-warm);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.92em;
+    color: var(--ink);
+  }
+
+  /* Code block */
+  .code-block {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    margin: 0.85rem 0;
+    overflow-x: auto;
+    position: relative;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--paper);
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover {
+    background: var(--accent);
+    color: var(--ink);
+    border-color: var(--accent);
+  }
+
+  /* === Filters category tabs === */
+  .filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-tab {
+    padding: 0.65rem 1.25rem;
+    background: white;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.92rem;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-tab:hover {
+    background: var(--paper-warm);
+  }
+
+  .filter-tab.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  /* === Timeline === */
+  .timeline {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 5vw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .timeline-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .timeline h2 {
+    color: var(--paper);
+    margin-bottom: 3rem;
+  }
+
+  .timeline h2 em {
+    color: var(--accent);
+  }
+
+  .timeline-section-label {
+    color: var(--accent);
+  }
+
+  .timeline-section-label::before {
+    background: var(--accent);
+  }
+
+  .timeline-events {
+    position: relative;
+    padding-left: 3rem;
+  }
+
+  .timeline-events::before {
+    content: '';
+    position: absolute;
+    left: 1rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .timeline-event {
+    position: relative;
+    padding-bottom: 2.5rem;
+  }
+
+  .timeline-event::before {
+    content: '';
+    position: absolute;
+    left: -2.5rem;
+    top: 0.4rem;
+    width: 16px;
+    height: 16px;
+    background: var(--ink);
+    border: 2px solid var(--paper);
+    border-radius: 50%;
+    z-index: 2;
+  }
+
+  .timeline-event.active::before {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(0, 212, 170, 0.2);
+  }
+
+  .timeline-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+  }
+
+  .timeline-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--paper);
+  }
+
+  .timeline-desc {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  /* === Help footer === */
+  footer {
+    padding: 3rem 5vw 3.5rem;
+    border-top: 1px solid var(--line);
+    background: var(--paper-warm);
+    position: relative;
+    z-index: 5;
+  }
+
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 3rem;
+    align-items: end;
+  }
+
+  .footer-help h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.85rem;
+  }
+
+  .footer-help h3 em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .footer-help p {
+    font-size: 1.02rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .footer-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    background: white;
+    border: 1px solid var(--line-strong);
+    border-radius: 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .cta-btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    transform: translateY(-2px);
+  }
+
+  .cta-btn-label {
+    font-weight: 500;
+  }
+
+  .cta-btn-detail {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    opacity: 0.6;
+    margin-top: 0.15rem;
+  }
+
+  /* === Responsive === */
+  @media (max-width: 768px) {
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .quick-tags-label { width: 100%; margin-bottom: 0.5rem; }
+  }
+
+  /* === Reveal animation === */
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    animation: reveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+  }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+
+  /* No results state */
+  .no-results {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--ink-soft);
+    font-style: italic;
+    display: none;
+  }
+
+  .no-results.show {
+    display: block;
+  }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark">SX</div>
+      <span>SiPhox · Migration Hub</span>
+    </div>
+    <div class="status-pill">
+      <span class="status-dot"></span>
+      Migration in progress
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="reveal">
+      <h1>From Outlook to Gmail.<br><em>Smoothly.</em><br><strong>Together.</strong></h1>
+      <p class="hero-subtitle">Everything you need to know about your move from Microsoft 365 to Google Workspace. Search a question, follow a guide, or skim the timeline. We've got you.</p>
+    </div>
+  </div>
+</section>
+
+<section class="search-section">
+  <div class="search-inner reveal delay-2">
+    <div class="search-wrap">
+      <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" class="search-input" id="search" placeholder="Try: 'I can't find an email' or 'how do filters work'">
+    </div>
+    <div class="quick-tags">
+      <span class="quick-tags-label">Common</span>
+      <button class="tag" data-search="login">First login</button>
+      <button class="tag" data-search="folder label">Folders → labels</button>
+      <button class="tag" data-search="filter">Filters / rules</button>
+      <button class="tag" data-search="missing">Missing stuff</button>
+      <button class="tag" data-search="outlook">Old Outlook access</button>
+      <button class="tag" data-search="onedrive drive">OneDrive → Drive</button>
+      <button class="tag" data-search="phone mobile">Phone setup</button>
+    </div>
+  </div>
+</section>
+
+<section class="actions">
+  <div class="actions-inner">
+    <div class="section-label">Quick start</div>
+    <div class="actions-grid">
+      <button class="action-card reveal delay-1" data-jump="login">
+        <div class="action-num">01 / Sign-in</div>
+        <h3 class="action-title">Sign in for the first time</h3>
+        <p class="action-desc">Three steps. Set your password. You're in.</p>
+        <div class="action-arrow">↗</div>
+      </button>
+      <button class="action-card reveal delay-2" data-jump="labels">
+        <h3 class="action-title">Find your old folders</h3>
+        <p class="action-desc">They're now Gmail labels. Same structure, click the sidebar.</p>
+        <div class="action-num">02 / Inbox 101</div>
+        <div class="action-arrow">↗</div>
+      </button>
+      <button class="action-card reveal delay-3" data-jump="filters">
+        <h3 class="action-title">Recreate your rules</h3>
+        <p class="action-desc">Outlook rules don't migrate. Set up Gmail filters in 4 clicks.</p>
+        <div class="action-num">03 / Automation</div>
+        <div class="action-arrow">↗</div>
+      </button>
+      <button class="action-card reveal delay-4" data-jump="missing">
+        <h3 class="action-title">Something missing?</h3>
+        <p class="action-desc">Files, emails, calendar events — here's how to recover.</p>
+        <div class="action-num">04 / Troubleshoot</div>
+        <div class="action-arrow">↗</div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<main>
+
+<section class="section" id="login">
+  <div class="section-inner">
+    <div class="section-label">First sign-in</div>
+    <h2>Step one: <em>get in.</em></h2>
+    <p class="section-intro">Three steps on cutover morning. The hardest part is finding the welcome email.</p>
+
+    <div class="faq-list" data-category="login">
+      <div class="faq-item" data-keywords="login sign-in password welcome first">
+        <button class="faq-question">
+          <span>How do I sign in for the first time?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <ol>
+              <li>Go to <strong>mail.google.com</strong></li>
+              <li>Sign in with your <strong>@siphoxhealth.com</strong> email — your address is your old @siphox.com username, just on the new domain (e.g., <code>jane.doe@siphox.com</code> → <code>jane.doe@siphoxhealth.com</code>)</li>
+              <li>Use the temporary password from the welcome email Google sent you. Check spam if you don't see it.</li>
+              <li>You'll be prompted to set a new password on first login. Pick something strong.</li>
+              <li>Done. Your inbox, calendar, and Drive should all be there.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="welcome email password missing didn't receive spam">
+        <button class="faq-question">
+          <span>I didn't get the welcome email with my password.</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>First check your spam/junk folder in Outlook (the welcome email comes from <code>googleworkspace-noreply@google.com</code>). If it's not there, DM Eva or Pavel and we'll re-send credentials directly.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="mobile phone iphone android app gmail">
+        <button class="faq-question">
+          <span>How do I set up Gmail on my phone?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p><strong>iPhone & Android:</strong></p>
+            <ol>
+              <li>Download the Gmail app (or Google Workspace app)</li>
+              <li>Open it, tap your profile icon → <strong>Add another account</strong></li>
+              <li>Choose <strong>Google</strong></li>
+              <li>Sign in with your @siphoxhealth.com email and password</li>
+            </ol>
+            <p>You can keep your old Outlook account in the Gmail app too — see "Keep old Outlook accessible" below.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="labels">
+  <div class="section-inner">
+    <div class="section-label">Folders → Labels</div>
+    <h2>Same structure. <em>Different name.</em></h2>
+    <p class="section-intro">Gmail uses labels instead of folders. Your Outlook organization is preserved — but there's one mental shift to make.</p>
+
+    <div class="faq-list" data-category="labels">
+      <div class="faq-item" data-keywords="folder label difference outlook gmail">
+        <button class="faq-question">
+          <span>What's the difference between folders and labels?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p><strong>In Outlook:</strong> a folder is a place. An email lives in <em>one</em> folder. To organize, you move it.</p>
+            <p><strong>In Gmail:</strong> a label is a tag. An email can have <em>multiple</em> labels at once. Labels don't move emails — they tag them.</p>
+            <p>Practical effect after migration: every old Outlook folder is now a Gmail label in your left sidebar. Click a label to see only emails tagged with it.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="subfolder nested hierarchy">
+        <button class="faq-question">
+          <span>What about my subfolders?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Preserved. Subfolders become nested labels. So if you had <code>Projects/Q1 2026</code> in Outlook, you'll see it in Gmail's sidebar as:</p>
+            <div class="code-block">Projects
+  └─ Q1 2026
+  └─ Q4 2025
+Clients
+  └─ Acme Corp</div>
+            <p>Click any nested label to see only those emails.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="inbox crowded full why everything labeled archive">
+        <button class="faq-question">
+          <span>Why are all my emails in the Inbox <em>and</em> in their labels?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Because labels don't move emails — they tag them. After migration, your old emails are tagged with their label AND still appear in your Inbox by default.</p>
+            <p><strong>Two ways to clean up:</strong></p>
+            <ol>
+              <li><strong>Archive:</strong> Select emails in the Inbox → click the archive button (down-arrow icon). They leave the Inbox but stay accessible under their label.</li>
+              <li><strong>Bulk archive a label:</strong> Open a label → select all → archive. Repeat per label, or set up a filter to do it automatically.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="multiple labels apply tag">
+        <button class="faq-question">
+          <span>Can I add multiple labels to one email?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Yes — and this is where Gmail starts to feel better than Outlook. Open any email, click the label icon at the top, and pick as many labels as you want. The same email shows up in all of them.</p>
+            <p>Useful when an email is relevant to multiple projects or clients.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="filters">
+  <div class="section-inner">
+    <div class="section-label">Filters & rules</div>
+    <h2>Outlook rules <em>don't migrate.</em></h2>
+    <p class="section-intro">But Gmail filters are more powerful. Recreate them in four clicks.</p>
+
+    <div class="faq-list" data-category="filters">
+      <div class="faq-item" data-keywords="filter create how new rule">
+        <button class="faq-question">
+          <span>How do I create a Gmail filter?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <ol>
+              <li>In Gmail, click the <strong>search bar</strong> at the top</li>
+              <li>Click the <strong>filter icon</strong> (sliders) on the right side of the search bar</li>
+              <li>Set your criteria — From, Subject, Has the words, Has attachment, etc.</li>
+              <li>Click <strong>Create filter</strong></li>
+              <li>Choose what should happen: <strong>Apply the label</strong> (pick label name), <strong>Skip the Inbox</strong>, <strong>Mark as read</strong>, etc.</li>
+              <li>Click <strong>Create filter</strong></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="example rule outlook gmail boss newsletter">
+        <button class="faq-question">
+          <span>Show me a real example.</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p><strong>Outlook rule:</strong> "Move emails from boss@siphoxhealth.com to Important folder"</p>
+            <p><strong>Gmail filter equivalent:</strong></p>
+            <ul>
+              <li>From: <code>boss@siphoxhealth.com</code></li>
+              <li>Apply label: <code>Important</code></li>
+              <li>Optionally check: <code>Skip the Inbox</code> + <code>Mark as read</code></li>
+            </ul>
+            <p><strong>Outlook rule:</strong> "Move newsletters to Newsletters folder"</p>
+            <p><strong>Gmail filter equivalent:</strong></p>
+            <ul>
+              <li>Subject contains: <code>Newsletter</code></li>
+              <li>Apply label: <code>Newsletters</code></li>
+              <li>Check: <code>Skip the Inbox</code></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="search operator powerful tips advanced">
+        <button class="faq-question">
+          <span>Are there shortcuts for finding emails fast?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Gmail's search operators are powerful. A few worth knowing:</p>
+            <div class="code-block">from:boss@siphoxhealth.com has:attachment after:2026/01/01</div>
+            <ul>
+              <li><code>from:</code> — sender address or name</li>
+              <li><code>to:</code> — recipient</li>
+              <li><code>subject:</code> — words in subject</li>
+              <li><code>has:attachment</code> — emails with files</li>
+              <li><code>after:YYYY/MM/DD</code> — date filter</li>
+              <li><code>label:invoices</code> — within a specific label</li>
+              <li><code>is:unread</code> — only unread</li>
+            </ul>
+            <p>Combine them. Search > scrolling.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="missing">
+  <div class="section-inner">
+    <div class="section-label">Troubleshooting</div>
+    <h2>Something missing? <em>Most likely not.</em></h2>
+    <p class="section-intro">Almost everything migrated. If you can't find something, it's usually somewhere unexpected — or your old Outlook still has it.</p>
+
+    <div class="faq-list" data-category="missing">
+      <div class="faq-item" data-keywords="missing email find lost gone">
+        <button class="faq-question">
+          <span>I can't find an email I had in Outlook.</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <ol>
+              <li><strong>Search Gmail.</strong> Try the sender's name, the subject, or a few words from the body. Gmail search is very good — it'll usually find it.</li>
+              <li><strong>Check labels.</strong> The email might be archived (out of Inbox) but still tagged with a label. Click the label in your sidebar.</li>
+              <li><strong>Check All Mail.</strong> Click "More" in the sidebar → "All Mail". This shows everything, archived and not.</li>
+              <li><strong>Check Outlook.</strong> Read access stays for several weeks. If it's there but not in Gmail, DM Eva or Pavel.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="onedrive file missing drive download upload manual">
+        <button class="faq-question">
+          <span>A OneDrive file isn't in Google Drive.</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Most files migrated. For any that didn't, here's the manual workaround:</p>
+            <ol>
+              <li>Go to <strong>onedrive.live.com</strong> and sign in with your @siphox.com account (still works for several weeks).</li>
+              <li>Find the file. Right-click → <strong>Download</strong>.</li>
+              <li>Go to <strong>drive.google.com</strong> (signed in as @siphoxhealth.com).</li>
+              <li>Drag the downloaded file into your Drive, or click <strong>+ New → File upload</strong>.</li>
+            </ol>
+            <p>For folders: download as ZIP, unzip locally, then upload to Drive.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="calendar event missing wrong time meeting">
+        <button class="faq-question">
+          <span>A calendar event is missing or shows the wrong time.</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Calendar events should have migrated, including timezones. If something's off:</p>
+            <ol>
+              <li>Check the event timezone in Google Calendar (settings → general → time zone).</li>
+              <li>If a recurring event has a wrong time, edit it in Google Calendar — set the correct timezone explicitly.</li>
+              <li>If an event is completely missing, check old Outlook calendar (still accessible) and copy it over manually.</li>
+              <li>For anything weird, DM Eva or Pavel — we can re-run a calendar delta sync if needed.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="contact missing address book gone">
+        <button class="faq-question">
+          <span>My contacts didn't come over.</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Contact folders don't migrate as separate folders — instead, all contacts are merged into Google Contacts. Go to <strong>contacts.google.com</strong> and search there.</p>
+            <p>If a contact is genuinely missing, you can export it from Outlook (right-click contact → "Save as" or in Outlook web: People → export) and import to Google Contacts (settings → import → CSV).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">Old Outlook</div>
+    <h2>Keep old Outlook <em>accessible.</em></h2>
+    <p class="section-intro">Read-only for several weeks. Useful as a safety net, but here's how to never need it.</p>
+
+    <div class="faq-list">
+      <div class="faq-item" data-keywords="outlook still log in read access old">
+        <button class="faq-question">
+          <span>Can I still use Outlook?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p><strong>Read-only, for several weeks.</strong> You can sign in at <strong>outlook.office.com</strong> with your old @siphox.com credentials and read everything.</p>
+            <p>You <strong>can't send</strong> from Outlook anymore — sending is disabled at cutover.</p>
+            <p>Eventually, the Outlook accounts will be disabled completely. By then your Gmail should have everything.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="outlook gmail app phone add 5 click connect">
+        <button class="faq-question">
+          <span>How do I add my old Outlook to the Gmail app on my phone?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Five clicks. Works on iPhone and Android.</p>
+            <ol>
+              <li>Open the <strong>Gmail app</strong></li>
+              <li>Tap your <strong>profile picture</strong> (top right)</li>
+              <li>Tap <strong>Add another account</strong></li>
+              <li>Choose <strong>Outlook / Hotmail / Live</strong></li>
+              <li>Sign in with your @siphox.com credentials</li>
+            </ol>
+            <p>Now you can switch between accounts from the same app — no need to install Outlook separately.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="forward auto outlook to gmail desktop">
+        <button class="faq-question">
+          <span>Can I auto-forward old Outlook mail to Gmail on desktop?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <ol>
+              <li>Sign in to <strong>outlook.office.com</strong> with your @siphox.com credentials</li>
+              <li>Click the <strong>gear icon</strong> (top right) → <strong>View all Outlook settings</strong></li>
+              <li>Go to <strong>Mail → Forwarding</strong></li>
+              <li>Check <strong>Enable forwarding</strong>, enter your @siphoxhealth.com address</li>
+              <li>Check <strong>Keep a copy of forwarded messages</strong>, then <strong>Save</strong></li>
+            </ol>
+            <p>Note: this is mostly useful if you're worried about late-arriving emails. After cutover, all new mail to @siphox.com should be auto-routed to Gmail anyway.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="no-results" id="noResults">
+  No matches. Try a different keyword, or DM Eva / Pavel for help.
+</div>
+
+</main>
+
+<section class="timeline">
+  <div class="timeline-inner">
+    <div class="section-label timeline-section-label">Cutover schedule</div>
+    <h2>What happens, <em>when.</em></h2>
+
+    <div class="timeline-events">
+      <div class="timeline-event">
+        <div class="timeline-time">Lead-up</div>
+        <div class="timeline-title">Business as usual</div>
+        <div class="timeline-desc">Keep using Outlook normally. We're running data syncs in the background. You won't notice anything.</div>
+      </div>
+
+      <div class="timeline-event active">
+        <div class="timeline-time">Cutover day · end of work</div>
+        <div class="timeline-title">Log out of Outlook</div>
+        <div class="timeline-desc">Please log out at the end of your workday so we can capture your latest emails in the final sync. If you stay logged in, anything you receive after this point may not migrate cleanly.</div>
+      </div>
+
+      <div class="timeline-event">
+        <div class="timeline-time">After hours</div>
+        <div class="timeline-title">The switch happens</div>
+        <div class="timeline-desc">We change the email routing. From this point, new mail to @siphox.com starts arriving in your @siphoxhealth.com Gmail. Outlook switches to read-only.</div>
+      </div>
+
+      <div class="timeline-event">
+        <div class="timeline-time">Next morning</div>
+        <div class="timeline-title">Sign in to Google Workspace</div>
+        <div class="timeline-desc">Welcome email from Google has your temp password. Sign in at mail.google.com, change your password, and you're set up. Your inbox, calendar, and Drive should all be there.</div>
+      </div>
+
+      <div class="timeline-event">
+        <div class="timeline-time">Following weeks</div>
+        <div class="timeline-title">Old Outlook stays accessible (read-only)</div>
+        <div class="timeline-desc">Safety net. You can still sign in to Outlook to read old emails, but you can't send. Use it for reference only.</div>
+      </div>
+
+      <div class="timeline-event">
+        <div class="timeline-time">After validation period</div>
+        <div class="timeline-title">Old Outlook accounts disabled</div>
+        <div class="timeline-desc">Final wind-down. By this point everything you need should already be in Gmail.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-help">
+      <h3>Stuck on something <em>this hub didn't cover?</em></h3>
+      <p>We're around. The fastest answers come from a quick DM — for anything urgent, ping us in #it-help.</p>
+    </div>
+    <div class="footer-cta">
+      <a class="cta-btn" href="https://siphox.slack.com/archives/" target="_blank">
+        <div>
+          <div class="cta-btn-label">DM Eva or Pavel</div>
+          <div class="cta-btn-detail">Slack · 5–10 min response</div>
+        </div>
+        <span>→</span>
+      </a>
+      <a class="cta-btn" href="#" onclick="alert('Replace this with your #it-help channel link or Notion page'); return false;">
+        <div>
+          <div class="cta-btn-label">#it-help channel</div>
+          <div class="cta-btn-detail">Slack · async</div>
+        </div>
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const answer = item.querySelector('.faq-answer');
+      const isOpen = item.classList.contains('open');
+
+      // Close all others (optional - remove if you want multiple open)
+      document.querySelectorAll('.faq-item').forEach(i => {
+        if (i !== item) {
+          i.classList.remove('open');
+          i.querySelector('.faq-answer').style.maxHeight = '0';
+        }
+      });
+
+      if (isOpen) {
+        item.classList.remove('open');
+        answer.style.maxHeight = '0';
+      } else {
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // Search functionality
+  const searchInput = document.getElementById('search');
+  const allFaqItems = document.querySelectorAll('.faq-item');
+  const noResults = document.getElementById('noResults');
+
+  function performSearch(query) {
+    query = query.toLowerCase().trim();
+    let anyVisible = false;
+
+    if (!query) {
+      // Show all
+      allFaqItems.forEach(item => item.classList.remove('hidden'));
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('hidden'));
+      noResults.classList.remove('show');
+      return;
+    }
+
+    document.querySelectorAll('.section').forEach(section => {
+      const items = section.querySelectorAll('.faq-item');
+      let sectionHasMatch = false;
+
+      items.forEach(item => {
+        const keywords = (item.dataset.keywords || '').toLowerCase();
+        const text = item.querySelector('.faq-question span').textContent.toLowerCase();
+        const answer = item.querySelector('.faq-answer-inner').textContent.toLowerCase();
+
+        const match = keywords.includes(query) || text.includes(query) || answer.includes(query);
+
+        if (match) {
+          item.classList.remove('hidden');
+          sectionHasMatch = true;
+          anyVisible = true;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      if (items.length > 0) {
+        section.classList.toggle('hidden', !sectionHasMatch);
+      }
+    });
+
+    noResults.classList.toggle('show', !anyVisible);
+  }
+
+  searchInput.addEventListener('input', e => performSearch(e.target.value));
+
+  // Quick tag clicks
+  document.querySelectorAll('.tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      searchInput.value = tag.dataset.search;
+      performSearch(tag.dataset.search);
+      searchInput.focus();
+    });
+  });
+
+  // Quick action card jumps
+  document.querySelectorAll('.action-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const target = document.getElementById(card.dataset.jump);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Open first FAQ in section
+        const firstFaq = target.querySelector('.faq-item');
+        if (firstFaq && !firstFaq.classList.contains('open')) {
+          firstFaq.querySelector('.faq-question').click();
+        }
+      }
+    });
+  });
+
+  // Copy buttons for code blocks
+  document.querySelectorAll('.code-block').forEach(block => {
+    if (!block.querySelector('.copy-btn')) {
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const text = block.textContent.replace('Copy', '').trim();
+        navigator.clipboard.writeText(text).then(() => {
+          btn.textContent = 'Copied!';
+          setTimeout(() => btn.textContent = 'Copy', 2000);
+        });
+      });
+      block.appendChild(btn);
+    }
+  });
+</script>
+
+</body>
+</html>
