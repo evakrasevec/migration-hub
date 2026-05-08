@@ -12,13 +12,11 @@
 
   :root {
     --bg: #ffffff;
-    --bg-subtle: #f5f5f5;
-    --bg-info: #e8f3fb;
-
-    --ink: #1a1a1a;
-    --ink-soft: #6b6b6b;
+    --bg-subtle: #f9fafb;
+    --bg-info: #eff6ff;
+    --ink: #111827;
+    --ink-soft: #4b5563;
     --ink-muted: #9ca3af;
-
     --border: #e5e7eb;
     --border-strong: #d1d5db;
 
@@ -30,10 +28,9 @@
     --accent: var(--brand-orange);
     --accent-soft: #fff1ec;
 
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md: 0 2px 8px rgba(0,0,0,0.06);
-    --shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
-    --focus-ring: 0 0 0 3px rgba(255, 107, 53, 0.1);
+    --shadow-sm: 0 1px 2px rgba(17,24,39,0.04);
+    --shadow-md: 0 2px 8px rgba(17,24,39,0.06);
+    --shadow-lg: 0 8px 24px rgba(17,24,39,0.08);
   }
 
   html { 
@@ -57,7 +54,7 @@
     top: 0;
     padding: 1rem 5vw;
     border-bottom: 1px solid var(--border);
-    z-index: 100;
+    z-index: 90;
     background: var(--bg);
     backdrop-filter: blur(8px);
     background-color: rgba(255, 255, 255, 0.98);
@@ -79,7 +76,7 @@
   }
 
   .brand-logo {
-    height: 40px;
+    height: 36px;
     width: auto;
   }
 
@@ -93,11 +90,11 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.9rem;
     background: var(--ink);
     color: var(--bg);
     border-radius: 999px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -120,7 +117,7 @@
 
   /* === Hero === */
   .hero {
-    padding: 3rem 5vw 2rem;
+    padding: 4rem 5vw 3rem;
     background: var(--bg);
   }
 
@@ -131,49 +128,82 @@
 
   .section-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--ink-muted);
     margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
     font-weight: 600;
   }
 
   .section-label::before {
-    content: '';
-    width: 20px;
-    height: 1px;
-    background: var(--ink);
+    content: '— ';
+    margin-right: 0.5rem;
   }
 
   .hero h1 {
     font-family: 'Inter', sans-serif;
-    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-size: clamp(2rem, 4vw, 2.75rem);
     font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
     margin-bottom: 1rem;
     color: var(--ink);
   }
 
-  .hero h1 .accent {
-    color: var(--brand-green);
-  }
-
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 1.05rem;
     line-height: 1.6;
     color: var(--ink-soft);
-    max-width: 42rem;
+    max-width: 50rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn-primary, .btn-secondary {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.85rem 1.5rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #e85a28;
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: var(--bg-subtle);
+    color: var(--ink);
+    border: 1px solid var(--border-strong);
+  }
+
+  .btn-secondary:hover {
+    background: var(--border);
+    border-color: var(--ink);
   }
 
   /* === Search === */
   .search-section {
-    padding: 1.5rem 5vw 2rem;
-    background: var(--bg);
+    padding: 2rem 5vw;
+    background: var(--bg-subtle);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
   }
 
   .search-inner {
@@ -183,9 +213,9 @@
 
   .search-wrap {
     position: relative;
-    background: var(--bg-subtle);
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
     padding: 0.5rem;
     box-shadow: var(--shadow-sm);
     transition: all 0.2s ease;
@@ -193,7 +223,9 @@
 
   .search-wrap:focus-within {
     border-color: var(--accent);
-    box-shadow: var(--shadow-md), var(--focus-ring);
+    box-shadow: var(--shadow-md);
+    outline: 2px solid rgba(255, 107, 53, 0.1);
+    outline-offset: 2px;
   }
 
   .search-input {
@@ -219,13 +251,7 @@
     width: 18px;
     height: 18px;
     color: var(--ink-soft);
-    opacity: 0.7;
-    transition: opacity 0.2s;
-  }
-
-  .search-wrap:focus-within .search-icon {
-    opacity: 1;
-    color: var(--accent);
+    opacity: 0.6;
   }
 
   .quick-tags {
@@ -238,10 +264,10 @@
 
   .quick-tags-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--ink-muted);
     margin-right: 0.5rem;
     font-weight: 600;
   }
@@ -254,7 +280,7 @@
     font-size: 0.8rem;
     color: var(--ink);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
   }
@@ -264,14 +290,9 @@
     border-color: var(--ink);
   }
 
-  .tag:focus {
-    outline: var(--focus-ring);
-    outline-offset: 2px;
-  }
-
   /* === Quick Actions === */
   .actions {
-    padding: 3rem 5vw;
+    padding: 3.5rem 5vw;
     background: var(--bg);
     border-top: 1px solid var(--border);
   }
@@ -291,31 +312,25 @@
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 1.5rem;
+    padding: 1.75rem;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
     position: relative;
     text-align: left;
     font-family: 'Inter', sans-serif;
     color: inherit;
-    text-decoration: none;
   }
 
   .action-card:hover {
-    transform: translateY(-2px);
     border-color: var(--ink);
     box-shadow: var(--shadow-md);
-  }
-
-  .action-card:focus {
-    outline: var(--focus-ring);
-    outline-offset: 2px;
+    transform: translateY(-2px);
   }
 
   .action-num {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--ink-soft);
+    font-size: 0.65rem;
+    color: var(--ink-muted);
     margin-bottom: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -328,7 +343,6 @@
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: 0.5rem;
-    letter-spacing: -0.01em;
     color: var(--ink);
   }
 
@@ -340,13 +354,10 @@
 
   .action-arrow {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    width: 24px;
-    height: 24px;
-    color: var(--accent);
-    font-weight: 600;
+    top: 1.75rem;
+    right: 1.75rem;
     font-size: 1.2rem;
+    color: var(--accent);
     transition: transform 0.2s;
   }
 
@@ -376,23 +387,19 @@
 
   .section h2 {
     font-family: 'Inter', sans-serif;
-    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-size: clamp(1.75rem, 3.5vw, 2.25rem);
     font-weight: 700;
-    line-height: 1.15;
+    line-height: 1.2;
     letter-spacing: -0.01em;
     margin-bottom: 0.75rem;
     color: var(--ink);
   }
 
-  .section h2 .accent {
-    color: var(--brand-green);
-  }
-
   .section-intro {
     font-size: 1rem;
     color: var(--ink-soft);
-    max-width: 42rem;
-    margin-bottom: 2rem;
+    max-width: 45rem;
+    margin-bottom: 2.5rem;
     line-height: 1.6;
   }
 
@@ -451,12 +458,11 @@
     font-weight: 700;
     color: var(--ink);
     border: 1px solid var(--border);
-    font-size: 1rem;
   }
 
   .faq-item.open .faq-toggle {
     background: var(--accent);
-    color: var(--bg);
+    color: white;
     transform: rotate(45deg);
     border-color: var(--accent);
   }
@@ -498,14 +504,12 @@
   .faq-answer-inner code {
     font-family: 'JetBrains Mono', monospace;
     background: var(--bg-info);
-    padding: 0.15rem 0.4rem;
+    padding: 0.2rem 0.4rem;
     border-radius: 4px;
     font-size: 0.88em;
     color: var(--ink);
-    border: 1px solid var(--border);
   }
 
-  /* Code block */
   .code-block {
     background: var(--ink);
     color: var(--bg);
@@ -516,7 +520,6 @@
     margin: 0.75rem 0;
     overflow-x: auto;
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .copy-btn {
@@ -537,7 +540,7 @@
 
   .copy-btn:hover {
     background: var(--accent);
-    color: var(--bg);
+    color: white;
     border-color: var(--accent);
   }
 
@@ -546,18 +549,7 @@
     background: var(--ink);
     color: var(--bg);
     padding: 4rem 5vw;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .timeline-inner {
@@ -569,17 +561,8 @@
     color: var(--brand-green);
   }
 
-  .timeline .section-label::before {
-    background: var(--brand-green);
-  }
-
   .timeline h2 {
     color: var(--bg);
-    margin-bottom: 2.5rem;
-  }
-
-  .timeline h2 .accent {
-    color: var(--brand-orange);
   }
 
   .timeline-events {
@@ -591,10 +574,10 @@
     content: '';
     position: absolute;
     left: 1rem;
-    top: 0.5rem;
-    bottom: 0.5rem;
+    top: 0;
+    bottom: 0;
     width: 1px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.1);
   }
 
   .timeline-event {
@@ -612,7 +595,6 @@
     background: var(--ink);
     border: 2px solid var(--bg);
     border-radius: 50%;
-    z-index: 2;
   }
 
   .timeline-event.active::before {
@@ -632,10 +614,9 @@
 
   .timeline-title {
     font-family: 'Inter', sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 700;
     margin-bottom: 0.4rem;
-    color: var(--bg);
   }
 
   .timeline-desc {
@@ -644,94 +625,7 @@
     line-height: 1.55;
   }
 
-  /* === Onboarding Progress === */
-  .onboarding {
-    background: var(--bg-info);
-    padding: 2rem 5vw;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .onboarding-inner {
-    max-width: 1280px;
-    margin: 0 auto;
-  }
-
-  .onboarding h3 {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: var(--ink);
-  }
-
-  .progress-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .progress-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .progress-number {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--brand-green);
-    color: var(--bg);
-    display: grid;
-    place-items: center;
-    font-weight: 700;
-    font-size: 0.9rem;
-  }
-
-  .progress-item.completed .progress-number {
-    background: var(--brand-green);
-  }
-
-  .progress-item.active .progress-number {
-    background: var(--brand-orange);
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  .progress-item.pending .progress-number {
-    background: var(--ink-muted);
-  }
-
-  .progress-text {
-    flex: 1;
-  }
-
-  .progress-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-  }
-
-  .progress-title {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 0.2rem;
-  }
-
-  .progress-desc {
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-    line-height: 1.4;
-  }
-
-  /* === Help Footer === */
+  /* === Footer === */
   footer {
     padding: 4rem 5vw;
     background: var(--bg-subtle);
@@ -749,21 +643,18 @@
 
   .footer-help h3 {
     font-family: 'Inter', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
     line-height: 1.15;
     margin-bottom: 0.75rem;
     color: var(--ink);
   }
 
-  .footer-help h3 .accent {
-    color: var(--brand-green);
-  }
-
   .footer-help p {
     font-size: 0.95rem;
     color: var(--ink-soft);
     line-height: 1.6;
+    margin-bottom: 1.5rem;
   }
 
   .footer-cta {
@@ -778,20 +669,19 @@
     justify-content: space-between;
     padding: 1rem 1.25rem;
     background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
     font-family: 'Inter', sans-serif;
     font-size: 0.95rem;
     font-weight: 600;
     color: var(--ink);
     cursor: pointer;
     transition: all 0.2s ease;
-    text-decoration: none;
   }
 
   .cta-btn:hover {
     background: var(--accent);
-    color: var(--bg);
+    color: white;
     border-color: var(--accent);
   }
 
@@ -799,88 +689,275 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem;
     opacity: 0.7;
-    font-weight: 500;
   }
 
-  /* === Search suggestions === */
-  .search-suggestions {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-top: none;
-    border-radius: 0 0 8px 8px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease;
-    z-index: 100;
-    box-shadow: var(--shadow-md);
-  }
-
-  .search-suggestions.show {
-    max-height: 400px;
-  }
-
-  .suggestion {
-    padding: 0.75rem 1rem;
-    cursor: pointer;
-    transition: background 0.15s;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.9rem;
+  .footer-link {
+    background: none;
+    border: none;
     color: var(--ink-soft);
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s;
   }
 
-  .suggestion:hover {
-    background: var(--bg-subtle);
+  .footer-link:hover {
     color: var(--accent);
   }
 
-  .suggestion:last-child {
-    border-bottom: none;
+  /* === Onboarding === */
+  .onboarding-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(17, 24, 39, 0.4);
+    backdrop-filter: blur(4px);
+    display: grid;
+    place-items: center;
+    z-index: 1000;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .onboarding-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .onboarding-modal {
+    background: var(--bg);
+    border-radius: 16px;
+    padding: 3rem;
+    max-width: 560px;
+    width: 100%;
+    position: relative;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(12px);
+    transition: transform 0.3s ease;
+  }
+
+  .onboarding-overlay.active .onboarding-modal {
+    transform: translateY(0);
+  }
+
+  .onboarding-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .progress-step {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    display: grid;
+    place-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+    transition: all 0.2s;
+  }
+
+  .progress-step.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .progress-step.completed {
+    background: var(--brand-green);
+    color: white;
+    border-color: var(--brand-green);
+  }
+
+  .onboarding-skip {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--ink-muted);
+    font-size: 0.875rem;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: color 0.2s;
+  }
+
+  .onboarding-skip:hover {
+    color: var(--ink);
+  }
+
+  .onboarding-step {
+    display: none;
+  }
+
+  .onboarding-step.active {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .onboarding-emoji {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .onboarding-step h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .onboarding-step > p {
+    color: var(--ink-soft);
+    margin-bottom: 2rem;
+  }
+
+  .onboarding-question h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
+
+  .onboarding-options {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .onboarding-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: 'Inter', sans-serif;
+    text-align: left;
+    width: 100%;
+  }
+
+  .onboarding-option:hover {
+    border-color: var(--ink);
+    background: var(--bg-subtle);
+  }
+
+  .onboarding-option.selected {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  .opt-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .opt-text {
+    font-size: 0.95rem;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  .opt-text strong {
+    display: block;
+    margin-bottom: 0.15rem;
+  }
+
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 2rem;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1rem;
+    background: var(--bg-subtle);
+    border-radius: 10px;
+    border-left: 3px solid var(--accent);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .checklist li:hover {
+    background: var(--bg-info);
+    border-left-color: var(--brand-green);
+  }
+
+  .check-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .check-content strong {
+    display: block;
+    color: var(--ink);
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .check-content small {
+    color: var(--ink-soft);
+    font-size: 0.85rem;
   }
 
   /* === Responsive === */
   @media (max-width: 768px) {
-    .header-inner {
-      flex-wrap: wrap;
+    header {
+      padding: 0.75rem 4vw;
     }
 
-    .status-pill {
-      margin-left: auto;
-    }
-
-    .footer-inner { 
-      grid-template-columns: 1fr; 
-      gap: 2rem; 
+    .hero {
+      padding: 3rem 4vw 2.5rem;
     }
 
     .hero h1 {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      margin-bottom: 0.75rem;
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+    }
+
+    .hero-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .btn-primary, .btn-secondary {
+      width: 100%;
+      text-align: center;
     }
 
     .section {
-      padding: 2.5rem 5vw;
+      padding: 2.5rem 4vw;
     }
 
     .actions {
-      padding: 2.5rem 5vw;
+      padding: 2.5rem 4vw;
     }
-  }
 
-  @media (max-width: 640px) {
     .actions-grid {
       grid-template-columns: 1fr;
-    }
-
-    .progress-container {
-      grid-template-columns: 1fr;
-    }
-
-    .section {
-      padding: 2rem 4vw;
     }
 
     .timeline-events {
@@ -894,14 +971,15 @@
     .timeline-event::before {
       left: -1.5rem;
     }
-  }
 
-  /* Accessibility */
-  @media (prefers-reduced-motion: reduce) {
-    * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .onboarding-modal {
+      padding: 2rem;
+      max-width: 90vw;
     }
   }
 
@@ -914,47 +992,45 @@
   <div class="header-inner">
     <div class="brand">
       <div class="brand-logo">
-        <!-- SiPhox Health Logo -->
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 50' preserveAspectRatio='xMidYMid meet'>
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 50' preserveAspectRatio='xMidYMid meet'>
           <!-- SiPho text -->
-          <text x="0" y="38" font-family="Inter, sans-serif" font-weight="700" font-size="32" fill="#1a1a1a" letter-spacing="-0.5">SiPho</text>
+          <text x="0" y="36" font-family="Inter, sans-serif" font-weight="700" font-size="28" fill="#111827" letter-spacing="-0.5">SiPho</text>
           
           <!-- X Mark: 4 angled stripes -->
-          <g transform="translate(105, 8)">
-            <!-- Green stripe (top-left to center) -->
+          <g transform="translate(102, 8)">
             <path d="M 0 0 L 6 6 L 5 7 L -1 1 Z" fill="#43c878"/>
-            <!-- Orange stripe (top-right to center) -->
             <path d="M 12 0 L 6 6 L 7 7 L 13 1 Z" fill="#ff6b35"/>
-            <!-- Teal stripe (bottom-right to center) -->
             <path d="M 12 12 L 6 6 L 7 5 L 13 11 Z" fill="#5ad6ce"/>
-            <!-- Yellow stripe (bottom-left to center) -->
             <path d="M 0 12 L 6 6 L 5 5 L -1 11 Z" fill="#fcd34d"/>
           </g>
 
-          <!-- HEALTH text -->
-          <text x="0" y="48" font-family="Inter, sans-serif" font-weight="600" font-size="11" fill="#1a1a1a" letter-spacing="2">HEALTH</text>
+          <!-- ® -->
+          <text x="120" y="30" font-family="Inter, sans-serif" font-weight="600" font-size="10" fill="#111827">®</text>
           
-          <!-- Registered trademark -->
-          <text x="70" y="36" font-family="Inter, sans-serif" font-weight="600" font-size="9" fill="#1a1a1a">®</text>
+          <!-- HEALTH -->
+          <text x="0" y="48" font-family="Inter, sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#111827">HEALTH</text>
           
-          <!-- Green underline under HEALTH -->
-          <line x1="0" y1="50" x2="55" y2="50" stroke="#43c878" stroke-width="2" stroke-linecap="round"/>
+          <!-- Green underline -->
+          <line x1="0" y1="50" x2="50" y2="50" stroke="#43c878" stroke-width="1.5"/>
         </svg>
       </div>
     </div>
     <div class="status-pill">
       <span class="status-dot"></span>
-      <span>Migration in progress</span>
+      Migration in progress
     </div>
   </div>
 </header>
 
 <section class="hero">
   <div class="hero-inner">
-    <div class="reveal">
-      <div class="section-label">Migration Hub</div>
-      <h1>Your guide from <span class="accent">Outlook to Gmail</span></h1>
-      <p class="hero-subtitle">Everything you need to know about your move from Microsoft 365 to Google Workspace. Search, follow a guide, or skim the timeline.</p>
+    <div class="section-label">Migration Hub</div>
+    <h1>Your guide to the move from Outlook to Gmail</h1>
+    <p class="hero-subtitle">Everything you need during the SiPhox migration to Google Workspace. Search a question, follow a guide, or take the 30-second walkthrough to get oriented.</p>
+    
+    <div class="hero-actions">
+      <button class="btn-primary" id="startOnboarding">Take the 30-second tour →</button>
+      <button class="btn-secondary" id="skipToSearch">I just want answers</button>
     </div>
   </div>
 </section>
@@ -969,7 +1045,6 @@
         </svg>
         <input type="text" class="search-input" id="search" placeholder="Try: 'sign in', 'labels', 'filters'">
       </div>
-      <div class="search-suggestions" id="suggestions"></div>
     </div>
     <div class="quick-tags">
       <span class="quick-tags-label">Quick start</span>
@@ -977,7 +1052,6 @@
       <button class="tag" data-search="folder label">Folders → labels</button>
       <button class="tag" data-search="filter">Filters</button>
       <button class="tag" data-search="missing">Missing email</button>
-      <button class="tag" data-search="outlook">Outlook access</button>
     </div>
   </div>
 </section>
@@ -989,14 +1063,14 @@
       <button class="action-card" data-jump="login">
         <div class="action-arrow">→</div>
         <div class="action-num">01 / Sign-in</div>
-        <h3 class="action-title">Sign in for the first time</h3>
+        <h3 class="action-title">Get into your account</h3>
         <p class="action-desc">Three steps. Set your password. You're in.</p>
       </button>
       <button class="action-card" data-jump="labels">
         <div class="action-arrow">→</div>
         <div class="action-num">02 / Inbox 101</div>
-        <h3 class="action-title">Find your old folders</h3>
-        <p class="action-desc">They're now Gmail labels. Same structure, click the sidebar.</p>
+        <h3 class="action-title">Folders are now labels</h3>
+        <p class="action-desc">Same structure, slightly different mental model.</p>
       </button>
       <button class="action-card" data-jump="filters">
         <div class="action-arrow">→</div>
@@ -1008,56 +1082,113 @@
   </div>
 </section>
 
-<!-- Onboarding Progress -->
-<section class="onboarding">
-  <div class="onboarding-inner">
-    <h3>Your onboarding path</h3>
-    <div class="progress-container">
-      <div class="progress-item completed">
-        <div class="progress-number">✓</div>
-        <div class="progress-text">
-          <div class="progress-label">Step 1</div>
-          <div class="progress-title">Account created</div>
-          <div class="progress-desc">Your Google Workspace account is ready</div>
-        </div>
-      </div>
+<!-- ONBOARDING OVERLAY -->
+<div class="onboarding-overlay" id="onboardingOverlay">
+  <div class="onboarding-modal">
+    <div class="onboarding-progress">
+      <div class="progress-step active">1</div>
+      <div class="progress-step">2</div>
+      <div class="progress-step">3</div>
+    </div>
+    <button class="onboarding-skip" id="skipOnboarding">Skip →</button>
 
-      <div class="progress-item active">
-        <div class="progress-number">2</div>
-        <div class="progress-text">
-          <div class="progress-label">Step 2 — Now</div>
-          <div class="progress-title">First login</div>
-          <div class="progress-desc">Sign in and set a new password</div>
-        </div>
-      </div>
-
-      <div class="progress-item pending">
-        <div class="progress-number">3</div>
-        <div class="progress-text">
-          <div class="progress-label">Step 3</div>
-          <div class="progress-title">Explore & organize</div>
-          <div class="progress-desc">Learn labels, filters, and settings</div>
-        </div>
-      </div>
-
-      <div class="progress-item pending">
-        <div class="progress-number">4</div>
-        <div class="progress-text">
-          <div class="progress-label">Step 4</div>
-          <div class="progress-title">Full migration</div>
-          <div class="progress-desc">Outlook fully retired, Gmail is home</div>
+    <!-- Step 1 -->
+    <div class="onboarding-step active" data-step="1">
+      <div class="onboarding-emoji">👋</div>
+      <h2>Welcome to the Migration Hub</h2>
+      <p>Let's spend 30 seconds figuring out what you need. We'll skip what doesn't apply.</p>
+      <div class="onboarding-question">
+        <h3>Have you signed in to your new @siphoxhealth.com account yet?</h3>
+        <div class="onboarding-options">
+          <button class="onboarding-option" data-value="not-yet">
+            <span class="opt-icon">🔑</span>
+            <span class="opt-text"><strong>Not yet</strong><br>Show me how</span>
+          </button>
+          <button class="onboarding-option" data-value="signed-in">
+            <span class="opt-icon">✅</span>
+            <span class="opt-text"><strong>Yes, I'm in</strong><br>Already signed in</span>
+          </button>
+          <button class="onboarding-option" data-value="trouble">
+            <span class="opt-icon">🤔</span>
+            <span class="opt-text"><strong>Having trouble</strong><br>Welcome email missing</span>
+          </button>
         </div>
       </div>
     </div>
+
+    <!-- Step 2 -->
+    <div class="onboarding-step" data-step="2">
+      <div class="onboarding-emoji">📁</div>
+      <h2>How do you organize email?</h2>
+      <p>This helps us point you at the right guides.</p>
+      <div class="onboarding-question">
+        <div class="onboarding-options">
+          <button class="onboarding-option" data-value="folders">
+            <span class="opt-icon">📂</span>
+            <span class="opt-text"><strong>Lots of folders</strong><br>Nested folder structure</span>
+          </button>
+          <button class="onboarding-option" data-value="rules">
+            <span class="opt-icon">⚙️</span>
+            <span class="opt-text"><strong>Automated rules</strong><br>I use Outlook rules</span>
+          </button>
+          <button class="onboarding-option" data-value="inbox-zero">
+            <span class="opt-icon">📥</span>
+            <span class="opt-text"><strong>Inbox zero</strong><br>Archive and search</span>
+          </button>
+          <button class="onboarding-option" data-value="chaos">
+            <span class="opt-icon">🌊</span>
+            <span class="opt-text"><strong>Organized chaos</strong><br>It's all mixed</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="onboarding-step" data-step="3">
+      <div class="onboarding-emoji">💼</div>
+      <h2>What about files?</h2>
+      <p>Last one — then we'll show your personal checklist.</p>
+      <div class="onboarding-question">
+        <div class="onboarding-options">
+          <button class="onboarding-option" data-value="onedrive">
+            <span class="opt-icon">📊</span>
+            <span class="opt-text"><strong>OneDrive heavy</strong><br>Lots of docs there</span>
+          </button>
+          <button class="onboarding-option" data-value="sharepoint">
+            <span class="opt-icon">🗂️</span>
+            <span class="opt-text"><strong>SharePoint user</strong><br>Team sites & shared drives</span>
+          </button>
+          <button class="onboarding-option" data-value="local">
+            <span class="opt-icon">💻</span>
+            <span class="opt-text"><strong>Local files</strong><br>Mostly on my laptop</span>
+          </button>
+          <button class="onboarding-option" data-value="light">
+            <span class="opt-icon">☁️</span>
+            <span class="opt-text"><strong>Light cloud user</strong><br>A few files, not critical</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="onboarding-step" data-step="result">
+      <div class="onboarding-emoji">🎯</div>
+      <h2>Your migration checklist</h2>
+      <p>Based on your answers, here's what to focus on. Click any to jump to that section.</p>
+      <ul class="checklist" id="personalChecklist"></ul>
+      <button class="btn-primary" id="completeOnboarding" style="width: 100%; text-align: center;">
+        Got it — let's go →
+      </button>
+    </div>
   </div>
-</section>
+</div>
 
 <main>
 
 <section class="section" id="login">
   <div class="section-inner">
     <div class="section-label">First sign-in</div>
-    <h2>Step one: <span class="accent">get in.</span></h2>
+    <h2>Get into your account</h2>
     <p class="section-intro">Three steps on cutover morning. The hardest part is finding the welcome email.</p>
 
     <div class="faq-list" data-category="login">
@@ -1070,7 +1201,7 @@
           <div class="faq-answer-inner">
             <ol>
               <li>Go to <strong>mail.google.com</strong></li>
-              <li>Sign in with your <strong>@siphoxhealth.com</strong> email — your address is your old @siphox.com username, just on the new domain (e.g., <code>jane.doe@siphox.com</code> → <code>jane.doe@siphoxhealth.com</code>)</li>
+              <li>Sign in with your <strong>@siphoxhealth.com</strong> email — your address is your old @siphox.com username on the new domain (e.g., <code>jane.doe@siphox.com</code> → <code>jane.doe@siphoxhealth.com</code>)</li>
               <li>Use the temporary password from the welcome email Google sent you. Check spam if you don't see it.</li>
               <li>You'll be prompted to set a new password on first login. Pick something strong.</li>
               <li>Done. Your inbox, calendar, and Drive should all be there.</li>
@@ -1111,7 +1242,7 @@
 <section class="section" id="labels">
   <div class="section-inner">
     <div class="section-label">Folders → Labels</div>
-    <h2>Same structure. <span class="accent">Different name.</span></h2>
+    <h2>Folders are now Gmail labels</h2>
     <p class="section-intro">Gmail uses labels instead of folders. Your Outlook organization is preserved — but there's one mental shift to make.</p>
 
     <div class="faq-list" data-category="labels">
@@ -1122,9 +1253,9 @@
         </button>
         <div class="faq-answer">
           <div class="faq-answer-inner">
-            <p><strong>In Outlook:</strong> a folder is a place. An email lives in <em>one</em> folder. To organize, you move it.</p>
-            <p><strong>In Gmail:</strong> a label is a tag. An email can have <em>multiple</em> labels at once. Labels don't move emails — they tag them.</p>
-            <p>Practical effect after migration: every old Outlook folder is now a Gmail label in your left sidebar. Click a label to see only emails tagged with it.</p>
+            <p><strong>In Outlook:</strong> a folder is a place. An email lives in one folder. To organize, you move it.</p>
+            <p><strong>In Gmail:</strong> a label is a tag. An email can have multiple labels at once. Labels don't move emails — they tag them.</p>
+            <p>Practical effect: every old Outlook folder is now a Gmail label in your left sidebar. Click a label to see only emails tagged with it.</p>
           </div>
         </div>
       </div>
@@ -1149,7 +1280,7 @@ Clients
 
       <div class="faq-item" data-keywords="inbox crowded full why everything labeled archive clean up">
         <button class="faq-question">
-          <span>Why are all my emails in the Inbox <em>and</em> in their labels?</span>
+          <span>Why are all my emails in the Inbox and in their labels?</span>
           <span class="faq-toggle">+</span>
         </button>
         <div class="faq-answer">
@@ -1158,7 +1289,7 @@ Clients
             <p><strong>Two ways to clean up:</strong></p>
             <ol>
               <li><strong>Archive:</strong> Select emails in the Inbox → click the archive button (down-arrow icon). They leave the Inbox but stay accessible under their label.</li>
-              <li><strong>Move to label:</strong> Select emails → click Labels → choose a label to move them. They'll now only show up in that label view.</li>
+              <li><strong>Move to label:</strong> Select emails → click Labels → choose a label. They'll now only show up in that label view.</li>
             </ol>
           </div>
         </div>
@@ -1170,13 +1301,13 @@ Clients
 <section class="section" id="filters">
   <div class="section-inner">
     <div class="section-label">Automation</div>
-    <h2>Recreate your <span class="accent">Outlook rules.</span></h2>
+    <h2>Recreate your Outlook rules as filters</h2>
     <p class="section-intro">Outlook rules and email forwarding don't automatically migrate. Here's how to rebuild them in Gmail.</p>
 
     <div class="faq-list" data-category="filters">
       <div class="faq-item" data-keywords="rule filter outlook gmail create auto-sort">
         <button class="faq-question">
-          <span>How do I create a Gmail filter (was a rule in Outlook)?</span>
+          <span>How do I create a Gmail filter?</span>
           <span class="faq-toggle">+</span>
         </button>
         <div class="faq-answer">
@@ -1214,7 +1345,7 @@ Clients
         </button>
         <div class="faq-answer">
           <div class="faq-answer-inner">
-            <p>Gmail filters are applied in the order you create them <em>for each incoming email</em>. If an email matches multiple filters, all matching actions will be applied.</p>
+            <p>Gmail filters are applied in the order you create them for each incoming email. If an email matches multiple filters, all matching actions will be applied.</p>
             <p>Unlike Outlook, there's no "stop processing" option, so be careful with conflicting filters. For complex rules, consider using Gmail's search operators and labels to organize instead.</p>
           </div>
         </div>
@@ -1226,7 +1357,7 @@ Clients
 <section class="timeline">
   <div class="timeline-inner">
     <div class="section-label">Timeline</div>
-    <h2>The <span class="accent">big day</span> in steps.</h2>
+    <h2>The big day in steps</h2>
 
     <div class="timeline-events">
       <div class="timeline-event active">
@@ -1264,11 +1395,65 @@ Clients
 
 </main>
 
+<section class="section" id="missing">
+  <div class="section-inner">
+    <div class="section-label">Troubleshooting</div>
+    <h2>Something missing? Probably not.</h2>
+    <p class="section-intro">Most "missing" email issues are just a visibility problem. Here's how to find what you're looking for.</p>
+
+    <div class="faq-list" data-category="missing">
+      <div class="faq-item" data-keywords="email missing not there where is it lost deleted">
+        <button class="faq-question">
+          <span>I can't find an old email. Is it lost?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Almost certainly not. Try these in order:</p>
+            <ol>
+              <li>Check the label it should be in. Old Outlook folders are now Gmail labels in the left sidebar.</li>
+              <li>Use Gmail's search box: type a sender name, subject, or keyword.</li>
+              <li>Check the "All Mail" label — it contains everything.</li>
+              <li>If it's from before the migration cutoff date (May 31), contact Eva or Pavel.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="attachments file attachment missing not there disappeared">
+        <button class="faq-question">
+          <span>Where are my email attachments?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>They migrated with the emails. Large attachments may have been converted to Google Drive links (sent in a separate email). Check your Drive under "My Drive" or search by sender name.</p>
+            <p>If you need the original file format, contact IT.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="outlook access old read-only backward">
+        <button class="faq-question">
+          <span>Can I still access my old Outlook account?</span>
+          <span class="faq-toggle">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Yes, for 30 days after cutover (through ~June 15). It's read-only — you can search and review, but not send/reply. Use it as a safety net while you get comfortable in Gmail, then it's archived.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-help">
-      <h3>Still stuck? <span class="accent">We're here.</span></h3>
-      <p>Didn't find an answer above? Slack the team — Eva and Pavel are monitoring during business hours.</p>
+      <h3>Still stuck?</h3>
+      <p>Didn't find an answer above? Slack the team — Eva and Pavel are monitoring during business hours, and we're here to help.</p>
+      <button class="footer-link" id="restartTour">↻ Take the tour again</button>
     </div>
     <div class="footer-cta">
       <button class="cta-btn">
@@ -1284,6 +1469,165 @@ Clients
 </footer>
 
 <script>
+  const STORAGE_KEY = 'siphox_hub_onboarded';
+
+  const overlay = document.getElementById('onboardingOverlay');
+  const skipBtn = document.getElementById('skipOnboarding');
+  const startBtn = document.getElementById('startOnboarding');
+  const skipToSearch = document.getElementById('skipToSearch');
+  const completeBtn = document.getElementById('completeOnboarding');
+  const checklistEl = document.getElementById('personalChecklist');
+  const progressSteps = document.querySelectorAll('.progress-step');
+  const restartTour = document.getElementById('restartTour');
+
+  let currentStep = 1;
+  const answers = {};
+
+  function showOnboarding() {
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function hideOnboarding() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    localStorage.setItem(STORAGE_KEY, 'true');
+  }
+
+  function goToStep(step) {
+    document.querySelectorAll('.onboarding-step').forEach(el => {
+      el.classList.toggle('active', el.dataset.step === String(step));
+    });
+
+    progressSteps.forEach((el, i) => {
+      el.classList.remove('active', 'completed');
+      if (i + 1 === step) el.classList.add('active');
+      else if (i + 1 < step) el.classList.add('completed');
+    });
+
+    currentStep = step;
+  }
+
+  function buildChecklist() {
+    const items = [];
+
+    if (answers.signin === 'not-yet') {
+      items.push({ 
+        title: '📧 Sign in to @siphoxhealth.com', 
+        detail: 'Get welcome email, set password, enable 2FA',
+        target: 'login'
+      });
+    } else if (answers.signin === 'trouble') {
+      items.push({ 
+        title: '🔑 Resolve sign-in trouble', 
+        detail: 'Check spam, reach out to support',
+        target: 'login'
+      });
+    } else {
+      items.push({ 
+        title: '✓ Already signed in', 
+        detail: 'Skip to inbox basics',
+        target: 'labels'
+      });
+    }
+
+    if (answers.email === 'folders') {
+      items.push({ 
+        title: '📁 Learn folders → Gmail labels', 
+        detail: 'Same structure, different mental model',
+        target: 'labels'
+      });
+    }
+    if (answers.email === 'rules') {
+      items.push({ 
+        title: '⚙️ Recreate Outlook rules as filters', 
+        detail: '4-click setup per rule',
+        target: 'filters'
+      });
+    }
+    if (answers.email === 'inbox-zero' || answers.email === 'chaos') {
+      items.push({ 
+        title: '📥 Gmail inbox orientation', 
+        detail: 'Search, archive, label basics',
+        target: 'labels'
+      });
+    }
+
+    if (answers.files === 'onedrive' || answers.files === 'sharepoint') {
+      items.push({ 
+        title: '💾 Verify files migrated to Drive', 
+        detail: 'Spot-check + manual fallback',
+        target: 'missing'
+      });
+    }
+
+    items.push({ 
+      title: '📚 Bookmark old Outlook (read-only)', 
+      detail: 'Safety net for ~1 month',
+      target: 'missing'
+    });
+
+    checklistEl.innerHTML = items.map((item, i) => `
+      <li data-target="${item.target}" style="cursor: pointer;">
+        <span class="check-icon"></span>
+        <div class="check-content">
+          <strong>${item.title}</strong>
+          <small>${item.detail}</small>
+        </div>
+      </li>
+    `).join('');
+
+    checklistEl.querySelectorAll('li').forEach(li => {
+      li.addEventListener('click', () => {
+        const target = li.dataset.target;
+        hideOnboarding();
+        setTimeout(() => {
+          const section = document.getElementById(target);
+          if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      });
+    });
+  }
+
+  document.querySelectorAll('.onboarding-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const step = btn.closest('.onboarding-step').dataset.step;
+      const value = btn.dataset.value;
+
+      btn.parentElement.querySelectorAll('.onboarding-option').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+
+      if (step === '1') answers.signin = value;
+      if (step === '2') answers.email = value;
+      if (step === '3') answers.files = value;
+
+      setTimeout(() => {
+        const nextStep = parseInt(step) + 1;
+        if (nextStep <= 3) {
+          goToStep(nextStep);
+        } else {
+          document.querySelectorAll('.onboarding-step').forEach(el => {
+            el.classList.toggle('active', el.dataset.step === 'result');
+          });
+          progressSteps.forEach(el => el.classList.add('completed'));
+          buildChecklist();
+        }
+      }, 250);
+    });
+  });
+
+  skipBtn.addEventListener('click', hideOnboarding);
+  completeBtn.addEventListener('click', hideOnboarding);
+  startBtn.addEventListener('click', showOnboarding);
+  skipToSearch.addEventListener('click', () => {
+    hideOnboarding();
+    document.querySelector('.search-input').focus();
+  });
+  restartTour.addEventListener('click', () => {
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  });
+
   // FAQ Accordion
   document.querySelectorAll('.faq-question').forEach(button => {
     button.addEventListener('click', () => {
@@ -1301,77 +1645,34 @@ Clients
     });
   });
 
-  // Search functionality
-  const searchInput = document.getElementById('search');
-  const suggestionsDiv = document.getElementById('suggestions');
-  
-  const suggestions = [
-    { text: 'How do I sign in?', category: 'login' },
-    { text: 'What are labels vs folders?', category: 'labels' },
-    { text: 'How do I create filters?', category: 'filters' },
-    { text: 'Where is my old email?', category: 'labels' },
-    { text: 'How do I reset my password?', category: 'login' }
-  ];
-
-  searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase();
-    suggestionsDiv.innerHTML = '';
-
-    if (query.length > 0) {
-      const filtered = suggestions.filter(s => s.text.toLowerCase().includes(query));
-      
-      if (filtered.length > 0) {
-        suggestionsDiv.classList.add('show');
-        filtered.forEach(s => {
-          const div = document.createElement('div');
-          div.className = 'suggestion';
-          div.textContent = s.text;
-          div.addEventListener('click', () => {
-            searchInput.value = s.text;
-            suggestionsDiv.classList.remove('show');
-            performSearch(s.category);
-          });
-          suggestionsDiv.appendChild(div);
-        });
-      } else {
-        suggestionsDiv.classList.remove('show');
-      }
-    } else {
-      suggestionsDiv.classList.remove('show');
-    }
-  });
-
-  function performSearch(category) {
-    const section = document.querySelector(`[data-category="${category}"]`);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
-
-  // Quick tag buttons
-  document.querySelectorAll('.tag').forEach(tag => {
-    tag.addEventListener('click', () => {
-      searchInput.value = tag.dataset.search;
-      performSearch('login');
-    });
-  });
-
   // Action card navigation
   document.querySelectorAll('.action-card').forEach(card => {
     card.addEventListener('click', () => {
       const target = card.dataset.jump;
       const section = document.getElementById(target);
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 
-  // Close suggestions on outside click
-  document.addEventListener('click', (e) => {
-    if (e.target !== searchInput && e.target !== suggestionsDiv) {
-      suggestionsDiv.classList.remove('show');
-    }
+  // Quick tag search
+  document.querySelectorAll('.tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      const query = tag.dataset.search.toLowerCase();
+      const sections = document.querySelectorAll('.faq-list');
+      
+      sections.forEach(section => {
+        const items = section.querySelectorAll('.faq-item');
+        let found = false;
+        
+        items.forEach(item => {
+          const keywords = item.dataset.keywords.toLowerCase();
+          if (keywords.includes(query)) {
+            item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            found = true;
+          }
+        });
+      });
+    });
   });
 
   // Copy code blocks
@@ -1388,12 +1689,10 @@ Clients
     block.appendChild(copyBtn);
   });
 
-  // Keyboard navigation
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      suggestionsDiv.classList.remove('show');
-    }
-  });
+  // Show onboarding on first visit
+  if (!localStorage.getItem(STORAGE_KEY)) {
+    setTimeout(showOnboarding, 800);
+  }
 </script>
 
 </body>
