@@ -78,17 +78,16 @@
     letter-spacing: -0.02em;
   }
 
-  .brand-mark {
-    width: 32px;
-    height: 32px;
-    background: var(--ink);
-    color: var(--accent);
-    border-radius: 8px;
-    display: grid;
-    place-items: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    font-size: 0.85rem;
+  .brand-logo {
+    height: 40px;
+    width: auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .brand-logo svg {
+    height: 100%;
+    width: auto;
   }
 
   .status-pill {
@@ -531,36 +530,6 @@
     border-color: var(--accent);
   }
 
-  /* === Filters category tabs === */
-  .filter-tabs {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-  }
-
-  .filter-tab {
-    padding: 0.65rem 1.25rem;
-    background: white;
-    border: 1px solid var(--line-strong);
-    border-radius: 999px;
-    font-family: inherit;
-    font-size: 0.92rem;
-    color: var(--ink);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .filter-tab:hover {
-    background: var(--paper-warm);
-  }
-
-  .filter-tab.active {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
-  }
-
   /* === Timeline === */
   .timeline {
     background: var(--ink);
@@ -761,7 +730,6 @@
   .delay-1 { animation-delay: 0.1s; }
   .delay-2 { animation-delay: 0.2s; }
   .delay-3 { animation-delay: 0.3s; }
-  .delay-4 { animation-delay: 0.4s; }
 
   /* No results state */
   .no-results {
@@ -777,6 +745,47 @@
   }
 
   .hidden { display: none !important; }
+
+  /* Smart suggestions */
+  .search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid var(--line-strong);
+    border-top: none;
+    border-radius: 0 0 1rem 1rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s;
+    z-index: 100;
+  }
+
+  .search-suggestions.show {
+    max-height: 300px;
+  }
+
+  .suggestion {
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.95rem;
+  }
+
+  .suggestion:hover {
+    background: var(--paper-warm);
+  }
+
+  .suggestion:last-child {
+    border-bottom: none;
+  }
+
+  .suggestion-highlight {
+    color: var(--accent);
+    font-weight: 600;
+  }
 </style>
 </head>
 <body>
@@ -784,8 +793,28 @@
 <header>
   <div class="header-inner">
     <div class="brand">
-      <div class="brand-mark">SX</div>
-      <span>SiPhox · Migration Hub</span>
+      <div class="brand-logo">
+        <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <!-- SiPho Text -->
+          <text x="0" y="28" font-family="Arial, sans-serif" font-size="32" font-weight="900" fill="#000">SiPho</text>
+          
+          <!-- X Logo (colorful cross) -->
+          <g transform="translate(82, 15)">
+            <!-- Orange part -->
+            <path d="M -4 -4 L 4 4" stroke="#FF6B35" stroke-width="4" stroke-linecap="round"/>
+            <!-- Teal part -->
+            <path d="M 4 -4 L -4 4" stroke="#00BFA5" stroke-width="4" stroke-linecap="round"/>
+            <!-- Yellow accent -->
+            <circle cx="0" cy="0" r="6" fill="none" stroke="#FFD700" stroke-width="2" opacity="0.6"/>
+          </g>
+          
+          <!-- HEALTH Text -->
+          <text x="75" y="28" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#000">HEALTH</text>
+          
+          <!-- Underline -->
+          <line x1="75" y1="32" x2="120" y2="32" stroke="#00BFA5" stroke-width="2"/>
+        </svg>
+      </div>
     </div>
     <div class="status-pill">
       <span class="status-dot"></span>
@@ -805,22 +834,23 @@
 
 <section class="search-section">
   <div class="search-inner reveal delay-2">
-    <div class="search-wrap">
-      <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-      <input type="text" class="search-input" id="search" placeholder="Try: 'I can't find an email' or 'how do filters work'">
+    <div style="position: relative;">
+      <div class="search-wrap">
+        <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="search-input" id="search" placeholder="Try: 'sign in', 'labels', 'filters', or 'missing email'">
+      </div>
+      <div class="search-suggestions" id="suggestions"></div>
     </div>
     <div class="quick-tags">
-      <span class="quick-tags-label">Common</span>
+      <span class="quick-tags-label">Quick start</span>
       <button class="tag" data-search="login">First login</button>
       <button class="tag" data-search="folder label">Folders → labels</button>
       <button class="tag" data-search="filter">Filters / rules</button>
       <button class="tag" data-search="missing">Missing stuff</button>
       <button class="tag" data-search="outlook">Old Outlook access</button>
-      <button class="tag" data-search="onedrive drive">OneDrive → Drive</button>
-      <button class="tag" data-search="phone mobile">Phone setup</button>
     </div>
   </div>
 </section>
@@ -847,12 +877,6 @@
         <div class="action-num">03 / Automation</div>
         <div class="action-arrow">↗</div>
       </button>
-      <button class="action-card reveal delay-4" data-jump="missing">
-        <h3 class="action-title">Something missing?</h3>
-        <p class="action-desc">Files, emails, calendar events — here's how to recover.</p>
-        <div class="action-num">04 / Troubleshoot</div>
-        <div class="action-arrow">↗</div>
-      </button>
     </div>
   </div>
 </section>
@@ -866,7 +890,7 @@
     <p class="section-intro">Three steps on cutover morning. The hardest part is finding the welcome email.</p>
 
     <div class="faq-list" data-category="login">
-      <div class="faq-item" data-keywords="login sign-in password welcome first">
+      <div class="faq-item" data-keywords="login sign-in password welcome first email">
         <button class="faq-question">
           <span>How do I sign in for the first time?</span>
           <span class="faq-toggle">+</span>
@@ -884,7 +908,7 @@
         </div>
       </div>
 
-      <div class="faq-item" data-keywords="welcome email password missing didn't receive spam">
+      <div class="faq-item" data-keywords="welcome email password missing didn't receive spam junk">
         <button class="faq-question">
           <span>I didn't get the welcome email with my password.</span>
           <span class="faq-toggle">+</span>
@@ -896,21 +920,16 @@
         </div>
       </div>
 
-      <div class="faq-item" data-keywords="mobile phone iphone android app gmail">
+      <div class="faq-item" data-keywords="access reset 2FA two-factor authentication security key">
         <button class="faq-question">
-          <span>How do I set up Gmail on my phone?</span>
+          <span>Can I reset my password or set up 2FA?</span>
           <span class="faq-toggle">+</span>
         </button>
         <div class="faq-answer">
           <div class="faq-answer-inner">
-            <p><strong>iPhone & Android:</strong></p>
-            <ol>
-              <li>Download the Gmail app (or Google Workspace app)</li>
-              <li>Open it, tap your profile icon → <strong>Add another account</strong></li>
-              <li>Choose <strong>Google</strong></li>
-              <li>Sign in with your @siphoxhealth.com email and password</li>
-            </ol>
-            <p>You can keep your old Outlook account in the Gmail app too — see "Keep old Outlook accessible" below.</p>
+            <p><strong>Reset password:</strong> Go to <strong>myaccount.google.com</strong>, click Security in the left menu, then "Password" to change it.</p>
+            <p><strong>Set up 2FA:</strong> Same place — go to Security → 2-Step Verification. Choose authenticator app, SMS, or security key for added protection.</p>
+            <p>We recommend enabling 2FA for company accounts.</p>
           </div>
         </div>
       </div>
@@ -925,7 +944,7 @@
     <p class="section-intro">Gmail uses labels instead of folders. Your Outlook organization is preserved — but there's one mental shift to make.</p>
 
     <div class="faq-list" data-category="labels">
-      <div class="faq-item" data-keywords="folder label difference outlook gmail">
+      <div class="faq-item" data-keywords="folder label difference outlook gmail organize tag">
         <button class="faq-question">
           <span>What's the difference between folders and labels?</span>
           <span class="faq-toggle">+</span>
@@ -939,7 +958,7 @@
         </div>
       </div>
 
-      <div class="faq-item" data-keywords="subfolder nested hierarchy">
+      <div class="faq-item" data-keywords="subfolder nested hierarchy structure nested labels">
         <button class="faq-question">
           <span>What about my subfolders?</span>
           <span class="faq-toggle">+</span>
@@ -957,7 +976,7 @@ Clients
         </div>
       </div>
 
-      <div class="faq-item" data-keywords="inbox crowded full why everything labeled archive">
+      <div class="faq-item" data-keywords="inbox crowded full why everything labeled archive clean up">
         <button class="faq-question">
           <span>Why are all my emails in the Inbox <em>and</em> in their labels?</span>
           <span class="faq-toggle">+</span>
@@ -974,7 +993,7 @@ Clients
         </div>
       </div>
 
-      <div class="faq-item" data-keywords="multiple labels apply tag">
+      <div class="faq-item" data-keywords="multiple labels apply tag same email">
         <button class="faq-question">
           <span>Can I add multiple labels to one email?</span>
           <span class="faq-toggle">+</span>
@@ -997,7 +1016,7 @@ Clients
     <p class="section-intro">But Gmail filters are more powerful. Recreate them in four clicks.</p>
 
     <div class="faq-list" data-category="filters">
-      <div class="faq-item" data-keywords="filter create how new rule">
+      <div class="faq-item" data-keywords="filter create how new rule automation">
         <button class="faq-question">
           <span>How do I create a Gmail filter?</span>
           <span class="faq-toggle">+</span>
@@ -1016,7 +1035,7 @@ Clients
         </div>
       </div>
 
-      <div class="faq-item" data-keywords="example rule outlook gmail boss newsletter">
+      <div class="faq-item" data-keywords="example rule outlook gmail boss newsletter auto">
         <button class="faq-question">
           <span>Show me a real example.</span>
           <span class="faq-toggle">+</span>
@@ -1041,7 +1060,7 @@ Clients
         </div>
       </div>
 
-      <div class="faq-item" data-keywords="search operator powerful tips advanced">
+      <div class="faq-item" data-keywords="search operator powerful tips advanced from to subject attachment">
         <button class="faq-question">
           <span>Are there shortcuts for finding emails fast?</span>
           <span class="faq-toggle">+</span>
@@ -1074,7 +1093,7 @@ Clients
     <p class="section-intro">Almost everything migrated. If you can't find something, it's usually somewhere unexpected — or your old Outlook still has it.</p>
 
     <div class="faq-list" data-category="missing">
-      <div class="faq-item" data-keywords="missing email find lost gone">
+      <div class="faq-item" data-keywords="missing email find lost gone search not found">
         <button class="faq-question">
           <span>I can't find an email I had in Outlook.</span>
           <span class="faq-toggle">+</span>
@@ -1091,26 +1110,7 @@ Clients
         </div>
       </div>
 
-      <div class="faq-item" data-keywords="onedrive file missing drive download upload manual">
-        <button class="faq-question">
-          <span>A OneDrive file isn't in Google Drive.</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>Most files migrated. For any that didn't, here's the manual workaround:</p>
-            <ol>
-              <li>Go to <strong>onedrive.live.com</strong> and sign in with your @siphox.com account (still works for several weeks).</li>
-              <li>Find the file. Right-click → <strong>Download</strong>.</li>
-              <li>Go to <strong>drive.google.com</strong> (signed in as @siphoxhealth.com).</li>
-              <li>Drag the downloaded file into your Drive, or click <strong>+ New → File upload</strong>.</li>
-            </ol>
-            <p>For folders: download as ZIP, unzip locally, then upload to Drive.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-keywords="calendar event missing wrong time meeting">
+      <div class="faq-item" data-keywords="calendar event missing wrong time meeting timezone sync">
         <button class="faq-question">
           <span>A calendar event is missing or shows the wrong time.</span>
           <span class="faq-toggle">+</span>
@@ -1128,7 +1128,7 @@ Clients
         </div>
       </div>
 
-      <div class="faq-item" data-keywords="contact missing address book gone">
+      <div class="faq-item" data-keywords="contact missing address book gone import export csv">
         <button class="faq-question">
           <span>My contacts didn't come over.</span>
           <span class="faq-toggle">+</span>
@@ -1151,7 +1151,7 @@ Clients
     <p class="section-intro">Read-only for several weeks. Useful as a safety net, but here's how to never need it.</p>
 
     <div class="faq-list">
-      <div class="faq-item" data-keywords="outlook still log in read access old">
+      <div class="faq-item" data-keywords="outlook still log in read access old sign in">
         <button class="faq-question">
           <span>Can I still use Outlook?</span>
           <span class="faq-toggle">+</span>
@@ -1165,29 +1165,29 @@ Clients
         </div>
       </div>
 
-      <div class="faq-item" data-keywords="outlook gmail app phone add 5 click connect">
+      <div class="faq-item" data-keywords="outlook gmail app add multiple account connect">
         <button class="faq-question">
-          <span>How do I add my old Outlook to the Gmail app on my phone?</span>
+          <span>How do I add my old Outlook to the Gmail app?</span>
           <span class="faq-toggle">+</span>
         </button>
         <div class="faq-answer">
           <div class="faq-answer-inner">
-            <p>Five clicks. Works on iPhone and Android.</p>
+            <p>Five clicks on web. On desktop:</p>
             <ol>
-              <li>Open the <strong>Gmail app</strong></li>
-              <li>Tap your <strong>profile picture</strong> (top right)</li>
-              <li>Tap <strong>Add another account</strong></li>
-              <li>Choose <strong>Outlook / Hotmail / Live</strong></li>
+              <li>Open Gmail in your browser</li>
+              <li>Click your profile picture (top right)</li>
+              <li>Click "Add another account"</li>
+              <li>Choose "Other" or "Outlook/Hotmail"</li>
               <li>Sign in with your @siphox.com credentials</li>
             </ol>
-            <p>Now you can switch between accounts from the same app — no need to install Outlook separately.</p>
+            <p>Now you can switch between accounts from the same browser tab.</p>
           </div>
         </div>
       </div>
 
-      <div class="faq-item" data-keywords="forward auto outlook to gmail desktop">
+      <div class="faq-item" data-keywords="forward auto outlook to gmail desktop email route">
         <button class="faq-question">
-          <span>Can I auto-forward old Outlook mail to Gmail on desktop?</span>
+          <span>Can I auto-forward old Outlook mail to Gmail?</span>
           <span class="faq-toggle">+</span>
         </button>
         <div class="faq-answer">
@@ -1208,7 +1208,7 @@ Clients
 </section>
 
 <div class="no-results" id="noResults">
-  No matches. Try a different keyword, or DM Eva / Pavel for help.
+  No matches found. Try a different keyword, or DM Eva / Pavel in Slack for help.
 </div>
 
 </main>
@@ -1284,6 +1284,26 @@ Clients
 </footer>
 
 <script>
+  // All FAQs data for smart search
+  const allFaqs = [
+    { keywords: "login sign-in password welcome first email", question: "How do I sign in for the first time?" },
+    { keywords: "welcome email password missing didn't receive spam junk", question: "I didn't get the welcome email with my password." },
+    { keywords: "access reset 2FA two-factor authentication security key", question: "Can I reset my password or set up 2FA?" },
+    { keywords: "folder label difference outlook gmail organize tag", question: "What's the difference between folders and labels?" },
+    { keywords: "subfolder nested hierarchy structure nested labels", question: "What about my subfolders?" },
+    { keywords: "inbox crowded full why everything labeled archive clean up", question: "Why are all my emails in the Inbox and in their labels?" },
+    { keywords: "multiple labels apply tag same email", question: "Can I add multiple labels to one email?" },
+    { keywords: "filter create how new rule automation", question: "How do I create a Gmail filter?" },
+    { keywords: "example rule outlook gmail boss newsletter auto", question: "Show me a real example." },
+    { keywords: "search operator powerful tips advanced from to subject attachment", question: "Are there shortcuts for finding emails fast?" },
+    { keywords: "missing email find lost gone search not found", question: "I can't find an email I had in Outlook." },
+    { keywords: "calendar event missing wrong time meeting timezone sync", question: "A calendar event is missing or shows the wrong time." },
+    { keywords: "contact missing address book gone import export csv", question: "My contacts didn't come over." },
+    { keywords: "outlook still log in read access old sign in", question: "Can I still use Outlook?" },
+    { keywords: "outlook gmail app add multiple account connect", question: "How do I add my old Outlook to the Gmail app?" },
+    { keywords: "forward auto outlook to gmail desktop email route", question: "Can I auto-forward old Outlook mail to Gmail?" }
+  ];
+
   // FAQ accordion
   document.querySelectorAll('.faq-question').forEach(q => {
     q.addEventListener('click', () => {
@@ -1291,7 +1311,6 @@ Clients
       const answer = item.querySelector('.faq-answer');
       const isOpen = item.classList.contains('open');
 
-      // Close all others (optional - remove if you want multiple open)
       document.querySelectorAll('.faq-item').forEach(i => {
         if (i !== item) {
           i.classList.remove('open');
@@ -1309,8 +1328,9 @@ Clients
     });
   });
 
-  // Search functionality
+  // Smart search with suggestions
   const searchInput = document.getElementById('search');
+  const suggestionsBox = document.getElementById('suggestions');
   const allFaqItems = document.querySelectorAll('.faq-item');
   const noResults = document.getElementById('noResults');
 
@@ -1319,10 +1339,10 @@ Clients
     let anyVisible = false;
 
     if (!query) {
-      // Show all
       allFaqItems.forEach(item => item.classList.remove('hidden'));
       document.querySelectorAll('.section').forEach(s => s.classList.remove('hidden'));
       noResults.classList.remove('show');
+      suggestionsBox.classList.remove('show');
       return;
     }
 
@@ -1354,7 +1374,37 @@ Clients
     noResults.classList.toggle('show', !anyVisible);
   }
 
-  searchInput.addEventListener('input', e => performSearch(e.target.value));
+  // Smart suggestions
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    performSearch(query);
+
+    if (query.length > 1) {
+      const suggestions = allFaqs
+        .filter(faq => faq.question.toLowerCase().includes(query) || faq.keywords.includes(query))
+        .slice(0, 5);
+
+      if (suggestions.length > 0) {
+        suggestionsBox.innerHTML = suggestions.map(s => 
+          `<div class="suggestion" onclick="document.getElementById('search').value = '${s.question.substring(0, 30)}'; performSearch('${s.keywords.split(' ')[0]}'); this.parentElement.classList.remove('show');">
+            <span>${s.question}</span>
+          </div>`
+        ).join('');
+        suggestionsBox.classList.add('show');
+      } else {
+        suggestionsBox.classList.remove('show');
+      }
+    } else {
+      suggestionsBox.classList.remove('show');
+    }
+  });
+
+  // Close suggestions on click outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-wrap') && !e.target.closest('.search-suggestions')) {
+      suggestionsBox.classList.remove('show');
+    }
+  });
 
   // Quick tag clicks
   document.querySelectorAll('.tag').forEach(tag => {
@@ -1371,7 +1421,6 @@ Clients
       const target = document.getElementById(card.dataset.jump);
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Open first FAQ in section
         const firstFaq = target.querySelector('.faq-item');
         if (firstFaq && !firstFaq.classList.contains('open')) {
           firstFaq.querySelector('.faq-question').click();
