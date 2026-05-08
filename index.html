@@ -6,7 +6,7 @@
 <title>SiPhox Health — Migration Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -24,9 +24,15 @@
     --shadow-sm: 0 1px 2px rgba(10, 22, 40, 0.04);
     --shadow-md: 0 4px 16px rgba(10, 22, 40, 0.06);
     --shadow-lg: 0 12px 40px rgba(10, 22, 40, 0.08);
+    --shadow-xl: 0 20px 60px rgba(10, 22, 40, 0.1);
+    --focus-ring: 0 0 0 3px var(--accent-soft);
   }
 
-  html { scroll-behavior: smooth; }
+  html { 
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
   body {
     font-family: 'Manrope', -apple-system, sans-serif;
@@ -40,24 +46,27 @@
   /* Decorative grain texture */
   body::before {
     content: '';
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     pointer-events: none;
     z-index: 1;
-    opacity: 0.15;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   /* === Header === */
   header {
-    position: relative;
-    padding: 1.25rem 5vw;
+    position: sticky;
+    top: 0;
+    padding: 1rem 5vw;
     border-bottom: 1px solid var(--line);
-    z-index: 10;
+    z-index: 100;
     background: var(--paper);
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.95);
   }
 
   .header-inner {
@@ -73,14 +82,21 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .brand:hover {
+    transform: scale(1.02);
   }
 
   .brand-logo {
-    height: 36px;
+    height: 40px;
     width: auto;
+    display: flex;
+    align-items: center;
   }
 
-  .brand-logo img {
+  .brand-logo svg {
     height: 100%;
     width: auto;
     display: block;
@@ -90,14 +106,21 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.4rem 0.85rem;
+    padding: 0.5rem 1rem;
     background: var(--ink);
     color: var(--paper);
     border-radius: 999px;
     font-size: 0.78rem;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.04em;
     margin-left: auto;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .status-pill:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
   }
 
   .status-dot {
@@ -116,23 +139,23 @@
   /* === Hero === */
   .hero {
     position: relative;
-    padding: 2rem 5vw 1.5rem;
+    padding: 3rem 5vw 2rem;
     z-index: 5;
   }
 
   .hero-inner {
-    max-width: 1280px;
-    margin: 0 auto;
     max-width: 56rem;
+    margin: 0 auto;
   }
 
   .hero h1 {
     font-family: 'Fraunces', serif;
-    font-size: clamp(2rem, 4vw, 3rem);
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
     font-weight: 400;
     line-height: 1.1;
     letter-spacing: -0.04em;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    color: var(--ink);
   }
 
   .hero h1 em {
@@ -146,21 +169,21 @@
   }
 
   .hero-subtitle {
-    font-size: 1.05rem;
-    line-height: 1.5;
+    font-size: 1.15rem;
+    line-height: 1.6;
     color: var(--ink-soft);
-    max-width: 36rem;
+    max-width: 40rem;
   }
 
   /* === Search === */
   .search-section {
-    padding: 1rem 5vw 2rem;
+    padding: 1.5rem 5vw 2.5rem;
     position: relative;
     z-index: 5;
   }
 
   .search-inner {
-    max-width: 1280px;
+    max-width: 56rem;
     margin: 0 auto;
   }
 
@@ -171,12 +194,13 @@
     border-radius: 1rem;
     padding: 0.5rem;
     box-shadow: var(--shadow-md);
-    transition: box-shadow 0.3s, transform 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .search-wrap:focus-within {
-    box-shadow: 0 8px 32px rgba(9, 225, 193, 0.15), 0 0 0 4px var(--accent-soft);
+    box-shadow: var(--shadow-lg), var(--focus-ring);
     transform: translateY(-2px);
+    border-color: var(--accent);
   }
 
   .search-input {
@@ -203,13 +227,19 @@
     height: 22px;
     color: var(--ink);
     opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+
+  .search-wrap:focus-within .search-icon {
+    opacity: 1;
+    color: var(--accent);
   }
 
   .quick-tags {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
-    margin-top: 0.75rem;
+    margin-top: 1rem;
     align-items: center;
   }
 
@@ -223,26 +253,34 @@
   }
 
   .tag {
-    padding: 0.45rem 0.85rem;
+    padding: 0.5rem 0.95rem;
     background: var(--paper);
-    border: 1px solid var(--line-strong);
+    border: 1.5px solid var(--line-strong);
     border-radius: 999px;
     font-size: 0.85rem;
     color: var(--ink);
     cursor: pointer;
     transition: all 0.2s;
     font-family: inherit;
+    font-weight: 500;
   }
 
   .tag:hover {
     background: var(--ink);
     color: var(--paper);
-    transform: translateY(-1px);
+    border-color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .tag:focus {
+    outline: var(--focus-ring);
+    outline-offset: 2px;
   }
 
   /* === Quick Actions === */
   .actions {
-    padding: 2.5rem 5vw 3rem;
+    padding: 3rem 5vw 3.5rem;
     position: relative;
     z-index: 5;
   }
@@ -273,15 +311,15 @@
 
   .actions-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
   }
 
   .action-card {
     background: var(--paper-warm);
-    border: 1px solid var(--line);
-    border-radius: 1rem;
-    padding: 1.5rem;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 1.25rem;
+    padding: 1.75rem;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
@@ -301,13 +339,18 @@
   }
 
   .action-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--ink);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-xl);
   }
 
   .action-card:hover::before {
-    opacity: 0.5;
+    opacity: 0.6;
+  }
+
+  .action-card:focus {
+    outline: var(--focus-ring);
+    outline-offset: 2px;
   }
 
   .action-card > * {
@@ -321,39 +364,42 @@
     color: var(--ink-soft);
     margin-bottom: 1rem;
     letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
   .action-title {
     font-family: 'Fraunces', serif;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 500;
-    line-height: 1.15;
-    margin-bottom: 0.75rem;
+    line-height: 1.2;
+    margin-bottom: 0.85rem;
     letter-spacing: -0.01em;
   }
 
   .action-desc {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--ink-soft);
-    line-height: 1.5;
+    line-height: 1.55;
   }
 
   .action-arrow {
     position: absolute;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    width: 32px;
-    height: 32px;
+    bottom: 1.75rem;
+    right: 1.75rem;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: var(--ink);
     color: var(--paper);
     display: grid;
     place-items: center;
-    transition: transform 0.3s;
+    transition: all 0.3s;
+    font-weight: 600;
+    font-size: 1.2rem;
   }
 
   .action-card:hover .action-arrow {
-    transform: rotate(-45deg) scale(1.1);
+    transform: rotate(-45deg) scale(1.15);
     background: var(--accent);
     color: var(--ink);
   }
@@ -365,8 +411,12 @@
   }
 
   .section {
-    padding: 3rem 5vw;
+    padding: 3.5rem 5vw;
     border-top: 1px solid var(--line);
+  }
+
+  .section:nth-child(even) {
+    background: var(--paper-warm);
   }
 
   .section-inner {
@@ -378,9 +428,9 @@
     font-family: 'Fraunces', serif;
     font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 400;
-    line-height: 1.05;
+    line-height: 1.1;
     letter-spacing: -0.03em;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.85rem;
   }
 
   .section h2 em {
@@ -389,9 +439,9 @@
   }
 
   .section-intro {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     color: var(--ink-soft);
-    max-width: 38rem;
+    max-width: 42rem;
     margin-bottom: 3rem;
   }
 
@@ -399,19 +449,19 @@
   .faq-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.85rem;
   }
 
   .faq-item {
-    background: var(--paper-warm);
-    border: 1px solid var(--line);
-    border-radius: 1rem;
+    background: var(--paper);
+    border: 1.5px solid var(--line-strong);
+    border-radius: 1.25rem;
     overflow: hidden;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .faq-item.open {
-    border-color: var(--ink);
+    border-color: var(--accent);
     box-shadow: var(--shadow-md);
   }
 
@@ -428,7 +478,7 @@
     gap: 1.5rem;
     font-family: 'Manrope', sans-serif;
     font-size: 1.05rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--ink);
     transition: color 0.2s;
   }
@@ -437,19 +487,25 @@
     color: var(--accent);
   }
 
+  .faq-question:focus {
+    outline: var(--focus-ring);
+    outline-offset: -2px;
+  }
+
   .faq-toggle {
     flex-shrink: 0;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: var(--paper);
+    background: var(--paper-warm);
     display: grid;
     place-items: center;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--ink);
-    border: 1px solid var(--line-strong);
+    border: 1.5px solid var(--line-strong);
+    font-size: 1.1rem;
   }
 
   .faq-item.open .faq-toggle {
@@ -468,29 +524,38 @@
   .faq-answer-inner {
     padding: 0 1.75rem 1.75rem;
     color: var(--ink-soft);
-    line-height: 1.65;
+    line-height: 1.7;
   }
 
-  .faq-answer-inner p { margin-bottom: 0.85rem; }
-  .faq-answer-inner p:last-child { margin-bottom: 0; }
-  .faq-answer-inner strong { color: var(--ink); font-weight: 600; }
+  .faq-answer-inner p { 
+    margin-bottom: 0.95rem;
+  }
+
+  .faq-answer-inner p:last-child { 
+    margin-bottom: 0; 
+  }
+
+  .faq-answer-inner strong { 
+    color: var(--ink); 
+    font-weight: 700;
+  }
 
   .faq-answer-inner ol,
   .faq-answer-inner ul {
-    margin: 0.5rem 0 0.85rem 1.5rem;
+    margin: 0.75rem 0 1rem 1.75rem;
     padding-left: 0;
   }
 
   .faq-answer-inner li {
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.5rem;
   }
 
   .faq-answer-inner code {
     font-family: 'JetBrains Mono', monospace;
-    background: var(--paper);
-    padding: 0.15rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.92em;
+    background: var(--paper-warm);
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.9em;
     color: var(--ink);
     border: 1px solid var(--line-strong);
   }
@@ -499,26 +564,28 @@
   .code-block {
     background: var(--ink);
     color: var(--paper);
-    padding: 1rem 1.25rem;
-    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 0.85rem;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.88rem;
-    margin: 0.85rem 0;
+    font-size: 0.9rem;
+    margin: 1rem 0;
     overflow-x: auto;
     position: relative;
+    border: 1px solid rgba(9, 225, 193, 0.1);
   }
 
   .copy-btn {
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
-    background: rgba(9, 225, 193, 0.1);
-    border: 1px solid rgba(9, 225, 193, 0.3);
+    background: rgba(9, 225, 193, 0.15);
+    border: 1px solid rgba(9, 225, 193, 0.4);
     color: var(--paper);
-    padding: 0.3rem 0.6rem;
-    border-radius: 6px;
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
     font-family: inherit;
     font-size: 0.75rem;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
   }
@@ -531,9 +598,9 @@
 
   /* === Timeline === */
   .timeline {
-    background: var(--ink);
+    background: linear-gradient(135deg, var(--ink) 0%, #0d1f36 100%);
     color: var(--paper);
-    padding: 3rem 5vw;
+    padding: 4rem 5vw;
     position: relative;
     overflow: hidden;
   }
@@ -581,13 +648,13 @@
     left: 1rem;
     top: 0.5rem;
     bottom: 0.5rem;
-    width: 1px;
-    background: rgba(255, 255, 255, 0.15);
+    width: 2px;
+    background: linear-gradient(180deg, rgba(9, 225, 193, 0.2) 0%, var(--accent), rgba(9, 225, 193, 0.2) 100%);
   }
 
   .timeline-event {
     position: relative;
-    padding-bottom: 2.5rem;
+    padding-bottom: 3rem;
   }
 
   .timeline-event::before {
@@ -595,46 +662,48 @@
     position: absolute;
     left: -2.5rem;
     top: 0.4rem;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     background: var(--ink);
-    border: 2px solid var(--paper);
+    border: 3px solid var(--paper);
     border-radius: 50%;
     z-index: 2;
+    transition: all 0.3s;
   }
 
   .timeline-event.active::before {
     background: var(--accent);
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px rgba(9, 225, 193, 0.2);
+    border-color: var(--ink);
+    box-shadow: 0 0 0 6px rgba(9, 225, 193, 0.2);
+    transform: scale(1.2);
   }
 
   .timeline-time {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
     color: var(--accent);
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.5rem;
     text-transform: uppercase;
   }
 
   .timeline-title {
     font-family: 'Fraunces', serif;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 500;
     margin-bottom: 0.5rem;
     color: var(--paper);
   }
 
   .timeline-desc {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.95rem;
-    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    line-height: 1.6;
   }
 
   /* === Help footer === */
   footer {
-    padding: 3rem 5vw 3.5rem;
+    padding: 4rem 5vw;
     border-top: 1px solid var(--line);
     background: var(--paper-warm);
     position: relative;
@@ -646,17 +715,17 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1.5fr 1fr;
-    gap: 3rem;
-    align-items: end;
+    gap: 3.5rem;
+    align-items: start;
   }
 
   .footer-help h3 {
     font-family: 'Fraunces', serif;
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 400;
-    line-height: 1.1;
+    line-height: 1.15;
     letter-spacing: -0.02em;
-    margin-bottom: 0.85rem;
+    margin-bottom: 1rem;
   }
 
   .footer-help h3 em {
@@ -665,30 +734,31 @@
   }
 
   .footer-help p {
-    font-size: 1.02rem;
+    font-size: 1.05rem;
     color: var(--ink-soft);
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
   .footer-cta {
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
+    gap: 0.95rem;
   }
 
   .cta-btn {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.25rem 1.5rem;
+    padding: 1.35rem 1.75rem;
     background: var(--paper);
-    border: 1px solid var(--line-strong);
-    border-radius: 1rem;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 1.25rem;
     font-family: inherit;
     font-size: 1rem;
+    font-weight: 600;
     color: var(--ink);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
   }
 
@@ -696,18 +766,23 @@
     background: var(--ink);
     color: var(--paper);
     border-color: var(--ink);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .cta-btn:focus {
+    outline: var(--focus-ring);
+    outline-offset: 2px;
   }
 
   .cta-btn-label {
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .cta-btn-detail {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     opacity: 0.6;
-    margin-top: 0.15rem;
   }
 
   /* === Smart suggestions === */
@@ -717,7 +792,7 @@
     left: 0;
     right: 0;
     background: var(--paper);
-    border: 1px solid var(--line-strong);
+    border: 1.5px solid var(--line-strong);
     border-top: none;
     border-radius: 0 0 1rem 1rem;
     max-height: 0;
@@ -728,19 +803,21 @@
   }
 
   .search-suggestions.show {
-    max-height: 300px;
+    max-height: 400px;
   }
 
   .suggestion {
-    padding: 0.75rem 1.25rem;
+    padding: 0.85rem 1.5rem;
     cursor: pointer;
     transition: background 0.2s;
     border-bottom: 1px solid var(--line);
-    font-size: 0.95rem;
+    font-size: 0.98rem;
+    font-weight: 500;
   }
 
   .suggestion:hover {
     background: var(--paper-warm);
+    color: var(--accent);
   }
 
   .suggestion:last-child {
@@ -750,7 +827,7 @@
   /* === Responsive === */
   @media (max-width: 768px) {
     header {
-      padding: 1rem 5vw;
+      padding: 0.85rem 5vw;
     }
 
     .header-inner {
@@ -759,26 +836,34 @@
 
     .status-pill {
       margin-left: auto;
+      font-size: 0.7rem;
     }
 
-    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
-    .quick-tags-label { width: 100%; margin-bottom: 0.5rem; }
+    .footer-inner { 
+      grid-template-columns: 1fr; 
+      gap: 2.5rem; 
+    }
+
+    .quick-tags-label { 
+      width: 100%; 
+      margin-bottom: 0.5rem; 
+    }
 
     .hero h1 {
-      font-size: clamp(1.5rem, 3vw, 2.25rem);
-      margin-bottom: 0.75rem;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      margin-bottom: 1rem;
     }
 
     .hero-subtitle {
-      font-size: 1rem;
+      font-size: 1.05rem;
     }
 
     .section {
-      padding: 2rem 5vw;
+      padding: 2.5rem 5vw;
     }
 
     .actions {
-      padding: 2rem 5vw;
+      padding: 2.5rem 5vw;
     }
   }
 
@@ -788,19 +873,28 @@
     }
 
     .section {
-      padding: 1.5rem 4vw;
+      padding: 2rem 4vw;
     }
 
     .timeline-events {
-      padding-left: 2rem;
+      padding-left: 2.5rem;
     }
 
     .timeline-events::before {
-      left: 0.5rem;
+      left: 0.75rem;
     }
 
     .timeline-event::before {
-      left: -1.5rem;
+      left: -1.75rem;
+    }
+
+    .quick-tags {
+      gap: 0.35rem;
+    }
+
+    .tag {
+      font-size: 0.78rem;
+      padding: 0.4rem 0.8rem;
     }
   }
 
@@ -818,6 +912,36 @@
   }
 
   .hidden { display: none !important; }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0f1419;
+      --paper-warm: #1a1e27;
+      --ink: #e8eef7;
+      --ink-soft: #a0abb0;
+      --line: rgba(232, 238, 247, 0.06);
+      --line-strong: rgba(232, 238, 247, 0.12);
+    }
+
+    header {
+      background-color: rgba(15, 20, 25, 0.95);
+    }
+
+    .code-block {
+      background: #1a1e27;
+      border-color: rgba(9, 225, 193, 0.2);
+    }
+  }
 </style>
 </head>
 <body>
@@ -826,12 +950,31 @@
   <div class="header-inner">
     <div class="brand">
       <div class="brand-logo">
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 40' preserveAspectRatio='xMidYMid meet'%3E%3Ctext x='0' y='28' font-family='system-ui, -apple-system, sans-serif' font-size='26' font-weight='900' fill='%230a1628'%3ESiPhox%3C/text%3E%3Ctext x='95' y='28' font-family='system-ui, -apple-system, sans-serif' font-size='12' font-weight='700' fill='%230a1628'%3EHEALTH%3C/text%3E%3Cpath d='M110 8 L120 22 M120 8 L110 22' stroke='%2309e1c1' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='95' y1='32' x2='125' y2='32' stroke='%2309e1c1' stroke-width='2'/%3E%3C/svg%3E" alt="SiPhox Health">
+        <!-- Improved SVG Logo -->
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 40' preserveAspectRatio='xMidYMid meet'>
+          <!-- Logo mark -->
+          <defs>
+            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#09e1c1;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#0a1628;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          
+          <!-- Hexagon shape -->
+          <g id="hexagon">
+            <polygon points="22,5 35,12.5 35,27.5 22,35 9,27.5 9,12.5" fill="none" stroke="url(#logoGradient)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="22" cy="20" r="5" fill="#09e1c1" opacity="0.3"/>
+            <circle cx="22" cy="20" r="3" fill="#09e1c1"/>
+          </g>
+          
+          <!-- Text: SiPhox -->
+          <text x="50" y="26" font-family="Fraunces, serif" font-size="16" font-weight="600" fill="#0a1628" letter-spacing="-0.5">SiPhox</text>
+        </svg>
       </div>
     </div>
     <div class="status-pill">
       <span class="status-dot"></span>
-      Migration in progress
+      <span>Migration in progress</span>
     </div>
   </div>
 </header>
@@ -847,7 +990,7 @@
   <div class="search-inner">
     <div style="position: relative;">
       <div class="search-wrap">
-        <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
@@ -856,7 +999,7 @@
       <div class="search-suggestions" id="suggestions"></div>
     </div>
     <div class="quick-tags">
-      <span class="quick-tags-label">Try</span>
+      <span class="quick-tags-label">Quick start</span>
       <button class="tag" data-search="login">First login</button>
       <button class="tag" data-search="folder label">Folders → labels</button>
       <button class="tag" data-search="filter">Filters / rules</button>
@@ -877,15 +1020,15 @@
         <div class="action-arrow">↗</div>
       </button>
       <button class="action-card" data-jump="labels">
+        <div class="action-num">02 / Inbox 101</div>
         <h3 class="action-title">Find your old folders</h3>
         <p class="action-desc">They're now Gmail labels. Same structure, click the sidebar.</p>
-        <div class="action-num">02 / Inbox 101</div>
         <div class="action-arrow">↗</div>
       </button>
       <button class="action-card" data-jump="filters">
+        <div class="action-num">03 / Automation</div>
         <h3 class="action-title">Recreate your rules</h3>
         <p class="action-desc">Outlook rules don't migrate. Set up Gmail filters in 4 clicks.</p>
-        <div class="action-num">03 / Automation</div>
         <div class="action-arrow">↗</div>
       </button>
     </div>
@@ -998,21 +1141,8 @@ Clients
             <p><strong>Two ways to clean up:</strong></p>
             <ol>
               <li><strong>Archive:</strong> Select emails in the Inbox → click the archive button (down-arrow icon). They leave the Inbox but stay accessible under their label.</li>
-              <li><strong>Bulk archive a label:</strong> Open a label → select all → archive. Repeat per label, or set up a filter to do it automatically.</li>
+              <li><strong>Move to label:</strong> Select emails → click Labels → choose a label to move them. They'll now only show up in that label view.</li>
             </ol>
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-keywords="multiple labels apply tag same email">
-        <button class="faq-question">
-          <span>Can I add multiple labels to one email?</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>Yes — and this is where Gmail starts to feel better than Outlook. Open any email, click the label icon at the top, and pick as many labels as you want. The same email shows up in all of them.</p>
-            <p>Useful when an email is relevant to multiple projects or clients.</p>
           </div>
         </div>
       </div>
@@ -1022,439 +1152,229 @@ Clients
 
 <section class="section" id="filters">
   <div class="section-inner">
-    <div class="section-label">Filters & rules</div>
-    <h2>Outlook rules <em>don't migrate.</em></h2>
-    <p class="section-intro">But Gmail filters are more powerful. Recreate them in four clicks.</p>
+    <div class="section-label">Automation</div>
+    <h2>Recreate your <em>Outlook rules.</em></h2>
+    <p class="section-intro">Outlook rules and email forwarding don't automatically migrate. Here's how to rebuild them in Gmail.</p>
 
     <div class="faq-list" data-category="filters">
-      <div class="faq-item" data-keywords="filter create how new rule automation">
+      <div class="faq-item" data-keywords="rule filter outlook gmail create auto-sort">
         <button class="faq-question">
-          <span>How do I create a Gmail filter?</span>
+          <span>How do I create a Gmail filter (was a rule in Outlook)?</span>
           <span class="faq-toggle">+</span>
         </button>
         <div class="faq-answer">
           <div class="faq-answer-inner">
-            <ol>
-              <li>In Gmail, click the <strong>search bar</strong> at the top</li>
-              <li>Click the <strong>filter icon</strong> (sliders) on the right side of the search bar</li>
-              <li>Set your criteria — From, Subject, Has the words, Has attachment, etc.</li>
-              <li>Click <strong>Create filter</strong></li>
-              <li>Choose what should happen: <strong>Apply the label</strong> (pick label name), <strong>Skip the Inbox</strong>, <strong>Mark as read</strong>, etc.</li>
-              <li>Click <strong>Create filter</strong></li>
-            </ol>
+            <p><strong>Step 1:</strong> Open Gmail → click the search box at the top</p>
+            <p><strong>Step 2:</strong> Enter your search criteria (e.g., <code>from:john@example.com</code>, <code>subject:invoice</code>, or <code>has:attachment</code>)</p>
+            <p><strong>Step 3:</strong> Click the dropdown arrow at the far right of the search box, then click "Create filter"</p>
+            <p><strong>Step 4:</strong> Choose actions (apply label, auto-archive, mark as read, forward, etc.)</p>
+            <p><strong>Step 5:</strong> Click "Create filter"</p>
           </div>
         </div>
       </div>
 
-      <div class="faq-item" data-keywords="example rule outlook gmail boss newsletter auto">
+      <div class="faq-item" data-keywords="forwarding forward email rules delegate">
         <button class="faq-question">
-          <span>Show me a real example.</span>
+          <span>How do I set up email forwarding?</span>
           <span class="faq-toggle">+</span>
         </button>
         <div class="faq-answer">
           <div class="faq-answer-inner">
-            <p><strong>Outlook rule:</strong> "Move emails from boss@siphoxhealth.com to Important folder"</p>
-            <p><strong>Gmail filter equivalent:</strong></p>
-            <ul>
-              <li>From: <code>boss@siphoxhealth.com</code></li>
-              <li>Apply label: <code>Important</code></li>
-              <li>Optionally check: <code>Skip the Inbox</code> + <code>Mark as read</code></li>
-            </ul>
-            <p><strong>Outlook rule:</strong> "Move newsletters to Newsletters folder"</p>
-            <p><strong>Gmail filter equivalent:</strong></p>
-            <ul>
-              <li>Subject contains: <code>Newsletter</code></li>
-              <li>Apply label: <code>Newsletters</code></li>
-              <li>Check: <code>Skip the Inbox</code></li>
-            </ul>
+            <p><strong>Step 1:</strong> Click the gear icon (Settings) in Gmail → Select "See all settings"</p>
+            <p><strong>Step 2:</strong> Go to the "Forwarding and POP/IMAP" tab</p>
+            <p><strong>Step 3:</strong> Click "Add a forwarding address" and enter the recipient's email</p>
+            <p><strong>Step 4:</strong> Confirm from the email Google sends to that address</p>
+            <p><strong>Step 5:</strong> Select "Forward a copy of incoming mail" and choose whether to keep a copy in Gmail</p>
+            <p><strong>Step 6:</strong> Click "Save changes"</p>
           </div>
         </div>
       </div>
 
-      <div class="faq-item" data-keywords="search operator powerful tips advanced from to subject attachment">
+      <div class="faq-item" data-keywords="filter priority order multiple rules conflict">
         <button class="faq-question">
-          <span>Are there shortcuts for finding emails fast?</span>
+          <span>What if I have lots of rules? Do they work in order?</span>
           <span class="faq-toggle">+</span>
         </button>
         <div class="faq-answer">
           <div class="faq-answer-inner">
-            <p>Gmail's search operators are powerful. A few worth knowing:</p>
-            <div class="code-block">from:boss@siphoxhealth.com has:attachment after:2026/01/01</div>
-            <ul>
-              <li><code>from:</code> — sender address or name</li>
-              <li><code>to:</code> — recipient</li>
-              <li><code>subject:</code> — words in subject</li>
-              <li><code>has:attachment</code> — emails with files</li>
-              <li><code>after:YYYY/MM/DD</code> — date filter</li>
-              <li><code>label:invoices</code> — within a specific label</li>
-              <li><code>is:unread</code> — only unread</li>
-            </ul>
-            <p>Combine them. Search > scrolling.</p>
+            <p>Gmail filters are applied in the order you create them <em>for each incoming email</em>. If an email matches multiple filters, all matching actions will be applied.</p>
+            <p>Unlike Outlook, there's no "stop processing" option, so be careful with conflicting filters. For complex rules, consider using Gmail's search operators and labels to organize instead.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-<section class="section" id="missing">
-  <div class="section-inner">
-    <div class="section-label">Troubleshooting</div>
-    <h2>Something missing? <em>Most likely not.</em></h2>
-    <p class="section-intro">Almost everything migrated. If you can't find something, it's usually somewhere unexpected — or your old Outlook still has it.</p>
-
-    <div class="faq-list" data-category="missing">
-      <div class="faq-item" data-keywords="missing email find lost gone search not found">
-        <button class="faq-question">
-          <span>I can't find an email I had in Outlook.</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <ol>
-              <li><strong>Search Gmail.</strong> Try the sender's name, the subject, or a few words from the body. Gmail search is very good — it'll usually find it.</li>
-              <li><strong>Check labels.</strong> The email might be archived (out of Inbox) but still tagged with a label. Click the label in your sidebar.</li>
-              <li><strong>Check All Mail.</strong> Click "More" in the sidebar → "All Mail". This shows everything, archived and not.</li>
-              <li><strong>Check Outlook.</strong> Read access stays for several weeks. If it's there but not in Gmail, DM Eva or Pavel.</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-keywords="calendar event missing wrong time meeting timezone sync">
-        <button class="faq-question">
-          <span>A calendar event is missing or shows the wrong time.</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>Calendar events should have migrated, including timezones. If something's off:</p>
-            <ol>
-              <li>Check the event timezone in Google Calendar (settings → general → time zone).</li>
-              <li>If a recurring event has a wrong time, edit it in Google Calendar — set the correct timezone explicitly.</li>
-              <li>If an event is completely missing, check old Outlook calendar (still accessible) and copy it over manually.</li>
-              <li>For anything weird, DM Eva or Pavel — we can re-run a calendar delta sync if needed.</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-keywords="contact missing address book gone import export csv">
-        <button class="faq-question">
-          <span>My contacts didn't come over.</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>Contact folders don't migrate as separate folders — instead, all contacts are merged into Google Contacts. Go to <strong>contacts.google.com</strong> and search there.</p>
-            <p>If a contact is genuinely missing, you can export it from Outlook (right-click contact → "Save as" or in Outlook web: People → export) and import to Google Contacts (settings → import → CSV).</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-inner">
-    <div class="section-label">Old Outlook</div>
-    <h2>Keep old Outlook <em>accessible.</em></h2>
-    <p class="section-intro">Read-only for several weeks. Useful as a safety net, but here's how to never need it.</p>
-
-    <div class="faq-list">
-      <div class="faq-item" data-keywords="outlook still log in read access old sign in">
-        <button class="faq-question">
-          <span>Can I still use Outlook?</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p><strong>Read-only, for several weeks.</strong> You can sign in at <strong>outlook.office.com</strong> with your old @siphox.com credentials and read everything.</p>
-            <p>You <strong>can't send</strong> from Outlook anymore — sending is disabled at cutover.</p>
-            <p>Eventually, the Outlook accounts will be disabled completely. By then your Gmail should have everything.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-keywords="outlook gmail app add multiple account connect">
-        <button class="faq-question">
-          <span>How do I add my old Outlook to the Gmail app?</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <p>Five clicks on web. On desktop:</p>
-            <ol>
-              <li>Open Gmail in your browser</li>
-              <li>Click your profile picture (top right)</li>
-              <li>Click "Add another account"</li>
-              <li>Choose "Other" or "Outlook/Hotmail"</li>
-              <li>Sign in with your @siphox.com credentials</li>
-            </ol>
-            <p>Now you can switch between accounts from the same browser tab.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="faq-item" data-keywords="forward auto outlook to gmail desktop email route">
-        <button class="faq-question">
-          <span>Can I auto-forward old Outlook mail to Gmail?</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">
-            <ol>
-              <li>Sign in to <strong>outlook.office.com</strong> with your @siphox.com credentials</li>
-              <li>Click the <strong>gear icon</strong> (top right) → <strong>View all Outlook settings</strong></li>
-              <li>Go to <strong>Mail → Forwarding</strong></li>
-              <li>Check <strong>Enable forwarding</strong>, enter your @siphoxhealth.com address</li>
-              <li>Check <strong>Keep a copy of forwarded messages</strong>, then <strong>Save</strong></li>
-            </ol>
-            <p>Note: this is mostly useful if you're worried about late-arriving emails. After cutover, all new mail to @siphox.com should be auto-routed to Gmail anyway.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="no-results" id="noResults">
-  No matches found. Try a different keyword, or DM Eva / Pavel in Slack for help.
-</div>
-
-</main>
 
 <section class="timeline">
   <div class="timeline-inner">
-    <div class="section-label timeline-section-label">Cutover schedule</div>
-    <h2>What happens, <em>when.</em></h2>
+    <div class="section-label">Timeline</div>
+    <h2>The <em>big day</em> in steps.</h2>
 
     <div class="timeline-events">
-      <div class="timeline-event">
-        <div class="timeline-time">Lead-up</div>
-        <div class="timeline-title">Business as usual</div>
-        <div class="timeline-desc">Keep using Outlook normally. We're running data syncs in the background. You won't notice anything.</div>
-      </div>
-
       <div class="timeline-event active">
-        <div class="timeline-time">Cutover day · end of work</div>
-        <div class="timeline-title">Log out of Outlook</div>
-        <div class="timeline-desc">Please log out at the end of your workday so we can capture your latest emails in the final sync. If you stay logged in, anything you receive after this point may not migrate cleanly.</div>
+        <div class="timeline-time">May 15 → May 30</div>
+        <div class="timeline-title">Preparation phase</div>
+        <div class="timeline-desc">Finalize data migration, set up Google Workspace, distribute welcome materials. You can still use Outlook.</div>
       </div>
 
       <div class="timeline-event">
-        <div class="timeline-time">After hours</div>
-        <div class="timeline-title">The switch happens</div>
-        <div class="timeline-desc">We change the email routing. From this point, new mail to @siphox.com starts arriving in your @siphoxhealth.com Gmail. Outlook switches to read-only.</div>
+        <div class="timeline-time">May 31 - Afternoon</div>
+        <div class="timeline-title">Cutover begins</div>
+        <div class="timeline-desc">At 3pm EST, we disable Outlook mailboxes and activate Google Workspace. All data should be in Gmail by now.</div>
       </div>
 
       <div class="timeline-event">
-        <div class="timeline-time">Next morning</div>
-        <div class="timeline-title">Sign in to Google Workspace</div>
-        <div class="timeline-desc">Welcome email from Google has your temp password. Sign in at mail.google.com, change your password, and you're set up. Your inbox, calendar, and Drive should all be there.</div>
+        <div class="timeline-time">June 1 - Morning</div>
+        <div class="timeline-title">First login time</div>
+        <div class="timeline-desc">Check your email at mail.google.com using the temporary password from your welcome email.</div>
       </div>
 
       <div class="timeline-event">
-        <div class="timeline-time">Following weeks</div>
-        <div class="timeline-title">Old Outlook stays accessible (read-only)</div>
-        <div class="timeline-desc">Safety net. You can still sign in to Outlook to read old emails, but you can't send. Use it for reference only.</div>
+        <div class="timeline-time">June 1-7</div>
+        <div class="timeline-title">Support window</div>
+        <div class="timeline-desc">Need help? Slack Eva or Pavel. We're monitoring all day and can troubleshoot missing data, access issues, etc.</div>
       </div>
 
       <div class="timeline-event">
-        <div class="timeline-time">After validation period</div>
-        <div class="timeline-title">Old Outlook accounts disabled</div>
-        <div class="timeline-desc">Final wind-down. By this point everything you need should already be in Gmail.</div>
+        <div class="timeline-time">June 8 onwards</div>
+        <div class="timeline-title">Full transition</div>
+        <div class="timeline-desc">Outlook is retired. Gmail is your new home. Old Outlook access ends on June 15.</div>
       </div>
     </div>
   </div>
 </section>
+
+</main>
 
 <footer>
   <div class="footer-inner">
     <div class="footer-help">
-      <h3>Stuck on something <em>this hub didn't cover?</em></h3>
-      <p>We're around. The fastest answers come from a quick DM — for anything urgent, ping us in #it-help.</p>
+      <h3>Still stuck? <em>We're here.</em></h3>
+      <p>Didn't find an answer above? Slack the team — Eva and Pavel are monitoring during business hours.</p>
     </div>
     <div class="footer-cta">
-      <a class="cta-btn" href="https://siphox.slack.com/archives/" target="_parent">
-        <div>
-          <div class="cta-btn-label">DM Eva or Pavel</div>
-          <div class="cta-btn-detail">Slack · 5–10 min response</div>
-        </div>
-        <span>→</span>
-      </a>
-      <a class="cta-btn" href="#" onclick="alert('Replace this with your #it-help channel link or Notion page'); return false;">
-        <div>
-          <div class="cta-btn-label">#it-help channel</div>
-          <div class="cta-btn-detail">Slack · async</div>
-        </div>
-        <span>→</span>
-      </a>
+      <button class="cta-btn">
+        <span class="cta-btn-label">Message on Slack</span>
+        <span class="cta-btn-detail">@eva / @pavel</span>
+      </button>
+      <button class="cta-btn">
+        <span class="cta-btn-label">Email support</span>
+        <span class="cta-btn-detail">migration@siphoxhealth.com</span>
+      </button>
     </div>
   </div>
 </footer>
 
 <script>
-  // All FAQs data for smart search
-  const allFaqs = [
-    { keywords: "login sign-in password welcome first email", question: "How do I sign in for the first time?" },
-    { keywords: "welcome email password missing didn't receive spam junk", question: "I didn't get the welcome email with my password." },
-    { keywords: "access reset 2FA two-factor authentication security key", question: "Can I reset my password or set up 2FA?" },
-    { keywords: "folder label difference outlook gmail organize tag", question: "What's the difference between folders and labels?" },
-    { keywords: "subfolder nested hierarchy structure nested labels", question: "What about my subfolders?" },
-    { keywords: "inbox crowded full why everything labeled archive clean up", question: "Why are all my emails in the Inbox and in their labels?" },
-    { keywords: "multiple labels apply tag same email", question: "Can I add multiple labels to one email?" },
-    { keywords: "filter create how new rule automation", question: "How do I create a Gmail filter?" },
-    { keywords: "example rule outlook gmail boss newsletter auto", question: "Show me a real example." },
-    { keywords: "search operator powerful tips advanced from to subject attachment", question: "Are there shortcuts for finding emails fast?" },
-    { keywords: "missing email find lost gone search not found", question: "I can't find an email I had in Outlook." },
-    { keywords: "calendar event missing wrong time meeting timezone sync", question: "A calendar event is missing or shows the wrong time." },
-    { keywords: "contact missing address book gone import export csv", question: "My contacts didn't come over." },
-    { keywords: "outlook still log in read access old sign in", question: "Can I still use Outlook?" },
-    { keywords: "outlook gmail app add multiple account connect", question: "How do I add my old Outlook to the Gmail app?" },
-    { keywords: "forward auto outlook to gmail desktop email route", question: "Can I auto-forward old Outlook mail to Gmail?" }
+  // FAQ Accordion
+  document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const item = button.parentElement;
+      const isOpen = item.classList.contains('open');
+      
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      
+      if (!isOpen) {
+        item.classList.add('open');
+        const answer = item.querySelector('.faq-answer');
+        const answerInner = item.querySelector('.faq-answer-inner');
+        answer.style.maxHeight = answerInner.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // Search functionality
+  const searchInput = document.getElementById('search');
+  const suggestionsDiv = document.getElementById('suggestions');
+  
+  const suggestions = [
+    { text: 'How do I sign in?', category: 'login' },
+    { text: 'What are labels vs folders?', category: 'labels' },
+    { text: 'How do I create filters?', category: 'filters' },
+    { text: 'Where is my old email?', category: 'labels' },
+    { text: 'How do I reset my password?', category: 'login' }
   ];
 
-  // FAQ accordion
-  document.querySelectorAll('.faq-question').forEach(q => {
-    q.addEventListener('click', () => {
-      const item = q.parentElement;
-      const answer = item.querySelector('.faq-answer');
-      const isOpen = item.classList.contains('open');
-
-      document.querySelectorAll('.faq-item').forEach(i => {
-        if (i !== item) {
-          i.classList.remove('open');
-          i.querySelector('.faq-answer').style.maxHeight = '0';
-        }
-      });
-
-      if (isOpen) {
-        item.classList.remove('open');
-        answer.style.maxHeight = '0';
-      } else {
-        item.classList.add('open');
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-      }
-    });
-  });
-
-  // Smart search with suggestions
-  const searchInput = document.getElementById('search');
-  const suggestionsBox = document.getElementById('suggestions');
-  const allFaqItems = document.querySelectorAll('.faq-item');
-  const noResults = document.getElementById('noResults');
-
-  function performSearch(query) {
-    query = query.toLowerCase().trim();
-    let anyVisible = false;
-
-    if (!query) {
-      allFaqItems.forEach(item => item.classList.remove('hidden'));
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('hidden'));
-      noResults.classList.remove('show');
-      suggestionsBox.classList.remove('show');
-      return;
-    }
-
-    document.querySelectorAll('.section').forEach(section => {
-      const items = section.querySelectorAll('.faq-item');
-      let sectionHasMatch = false;
-
-      items.forEach(item => {
-        const keywords = (item.dataset.keywords || '').toLowerCase();
-        const text = item.querySelector('.faq-question span').textContent.toLowerCase();
-        const answer = item.querySelector('.faq-answer-inner').textContent.toLowerCase();
-
-        const match = keywords.includes(query) || text.includes(query) || answer.includes(query);
-
-        if (match) {
-          item.classList.remove('hidden');
-          sectionHasMatch = true;
-          anyVisible = true;
-        } else {
-          item.classList.add('hidden');
-        }
-      });
-
-      if (items.length > 0) {
-        section.classList.toggle('hidden', !sectionHasMatch);
-      }
-    });
-
-    noResults.classList.toggle('show', !anyVisible);
-  }
-
-  // Smart suggestions
   searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase().trim();
-    performSearch(query);
+    const query = e.target.value.toLowerCase();
+    suggestionsDiv.innerHTML = '';
 
-    if (query.length > 1) {
-      const suggestions = allFaqs
-        .filter(faq => faq.question.toLowerCase().includes(query) || faq.keywords.includes(query))
-        .slice(0, 5);
-
-      if (suggestions.length > 0) {
-        suggestionsBox.innerHTML = suggestions.map(s => 
-          `<div class="suggestion" onclick="document.getElementById('search').value = '${s.question.substring(0, 30)}'; performSearch('${s.keywords.split(' ')[0]}'); this.parentElement.classList.remove('show');">
-            <span>${s.question}</span>
-          </div>`
-        ).join('');
-        suggestionsBox.classList.add('show');
+    if (query.length > 0) {
+      const filtered = suggestions.filter(s => s.text.toLowerCase().includes(query));
+      
+      if (filtered.length > 0) {
+        suggestionsDiv.classList.add('show');
+        filtered.forEach(s => {
+          const div = document.createElement('div');
+          div.className = 'suggestion';
+          div.textContent = s.text;
+          div.addEventListener('click', () => {
+            searchInput.value = s.text;
+            suggestionsDiv.classList.remove('show');
+            performSearch(s.category);
+          });
+          suggestionsDiv.appendChild(div);
+        });
       } else {
-        suggestionsBox.classList.remove('show');
+        suggestionsDiv.classList.remove('show');
       }
     } else {
-      suggestionsBox.classList.remove('show');
+      suggestionsDiv.classList.remove('show');
     }
   });
 
-  // Close suggestions on click outside
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.search-wrap') && !e.target.closest('.search-suggestions')) {
-      suggestionsBox.classList.remove('show');
+  function performSearch(category) {
+    const section = document.querySelector(`[data-category="${category}"]`);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  });
+  }
 
-  // Quick tag clicks
+  // Quick tag buttons
   document.querySelectorAll('.tag').forEach(tag => {
     tag.addEventListener('click', () => {
       searchInput.value = tag.dataset.search;
-      performSearch(tag.dataset.search);
-      searchInput.focus();
+      performSearch('login');
     });
   });
 
-  // Quick action card jumps
+  // Action card navigation
   document.querySelectorAll('.action-card').forEach(card => {
     card.addEventListener('click', () => {
-      const target = document.getElementById(card.dataset.jump);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        const firstFaq = target.querySelector('.faq-item');
-        if (firstFaq && !firstFaq.classList.contains('open')) {
-          firstFaq.querySelector('.faq-question').click();
-        }
+      const target = card.dataset.jump;
+      const section = document.getElementById(target);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
   });
 
-  // Copy buttons for code blocks
+  // Close suggestions on outside click
+  document.addEventListener('click', (e) => {
+    if (e.target !== searchInput && e.target !== suggestionsDiv) {
+      suggestionsDiv.classList.remove('show');
+    }
+  });
+
+  // Copy code blocks
   document.querySelectorAll('.code-block').forEach(block => {
-    if (!block.querySelector('.copy-btn')) {
-      const btn = document.createElement('button');
-      btn.className = 'copy-btn';
-      btn.textContent = 'Copy';
-      btn.addEventListener('click', e => {
-        e.stopPropagation();
-        const text = block.textContent.replace('Copy', '').trim();
-        navigator.clipboard.writeText(text).then(() => {
-          btn.textContent = 'Copied!';
-          setTimeout(() => btn.textContent = 'Copy', 2000);
-        });
-      });
-      block.appendChild(btn);
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'copy-btn';
+    copyBtn.textContent = 'Copy';
+    copyBtn.addEventListener('click', () => {
+      const text = block.textContent;
+      navigator.clipboard.writeText(text);
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+    });
+    block.appendChild(copyBtn);
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      suggestionsDiv.classList.remove('show');
     }
   });
 </script>
