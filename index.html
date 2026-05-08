@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SiPhox Migration Hub</title>
+<title>SiPhox Health — Migration Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,15 +12,15 @@
 
   :root {
     --ink: #0a1628;
-    --ink-soft: #1a2942;
-    --paper: #fafaf7;
-    --paper-warm: #f5f3ec;
-    --accent: #00d4aa;
-    --accent-soft: #c8f5e9;
+    --ink-soft: #4a5a7a;
+    --paper: #ffffff;
+    --paper-warm: #f8f9fa;
+    --accent: #09e1c1;
+    --accent-soft: #d4f9f4;
     --coral: #ff6b5b;
     --gold: #f4b942;
-    --line: rgba(10, 22, 40, 0.08);
-    --line-strong: rgba(10, 22, 40, 0.16);
+    --line: rgba(10, 22, 40, 0.06);
+    --line-strong: rgba(10, 22, 40, 0.12);
     --shadow-sm: 0 1px 2px rgba(10, 22, 40, 0.04);
     --shadow-md: 0 4px 16px rgba(10, 22, 40, 0.06);
     --shadow-lg: 0 12px 40px rgba(10, 22, 40, 0.08);
@@ -47,14 +47,14 @@
     bottom: 0;
     pointer-events: none;
     z-index: 1;
-    opacity: 0.4;
+    opacity: 0.15;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
   }
 
   /* === Header === */
   header {
     position: relative;
-    padding: 1.5rem 5vw 1.25rem;
+    padding: 1.25rem 5vw;
     border-bottom: 1px solid var(--line);
     z-index: 10;
     background: var(--paper);
@@ -66,28 +66,24 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 2rem;
   }
 
   .brand {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 1.35rem;
-    letter-spacing: -0.02em;
+    flex-shrink: 0;
   }
 
   .brand-logo {
-    height: 40px;
+    height: 36px;
     width: auto;
-    display: flex;
-    align-items: center;
   }
 
-  .brand-logo svg {
+  .brand-logo img {
     height: 100%;
     width: auto;
+    display: block;
   }
 
   .status-pill {
@@ -101,6 +97,7 @@
     font-size: 0.78rem;
     font-weight: 500;
     letter-spacing: 0.04em;
+    margin-left: auto;
   }
 
   .status-dot {
@@ -119,7 +116,7 @@
   /* === Hero === */
   .hero {
     position: relative;
-    padding: 3rem 5vw 2.5rem;
+    padding: 2rem 5vw 1.5rem;
     z-index: 5;
   }
 
@@ -131,11 +128,11 @@
 
   .hero h1 {
     font-family: 'Fraunces', serif;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 400;
-    line-height: 0.95;
+    line-height: 1.1;
     letter-spacing: -0.04em;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .hero h1 em {
@@ -149,7 +146,7 @@
   }
 
   .hero-subtitle {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     line-height: 1.5;
     color: var(--ink-soft);
     max-width: 36rem;
@@ -157,8 +154,7 @@
 
   /* === Search === */
   .search-section {
-    padding: 0 5vw;
-    margin-bottom: 3rem;
+    padding: 1rem 5vw 2rem;
     position: relative;
     z-index: 5;
   }
@@ -170,7 +166,7 @@
 
   .search-wrap {
     position: relative;
-    background: white;
+    background: var(--paper-warm);
     border: 2px solid var(--ink);
     border-radius: 1rem;
     padding: 0.5rem;
@@ -179,7 +175,7 @@
   }
 
   .search-wrap:focus-within {
-    box-shadow: 0 8px 32px rgba(0, 212, 170, 0.15), 0 0 0 4px var(--accent-soft);
+    box-shadow: 0 8px 32px rgba(9, 225, 193, 0.15), 0 0 0 4px var(--accent-soft);
     transform: translateY(-2px);
   }
 
@@ -189,7 +185,7 @@
     border: none;
     background: transparent;
     font-family: 'Manrope', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--ink);
     outline: none;
   }
@@ -213,7 +209,7 @@
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     align-items: center;
   }
 
@@ -228,7 +224,7 @@
 
   .tag {
     padding: 0.45rem 0.85rem;
-    background: white;
+    background: var(--paper);
     border: 1px solid var(--line-strong);
     border-radius: 999px;
     font-size: 0.85rem;
@@ -246,7 +242,7 @@
 
   /* === Quick Actions === */
   .actions {
-    padding: 0 5vw 4rem;
+    padding: 2.5rem 5vw 3rem;
     position: relative;
     z-index: 5;
   }
@@ -282,7 +278,7 @@
   }
 
   .action-card {
-    background: white;
+    background: var(--paper-warm);
     border: 1px solid var(--line);
     border-radius: 1rem;
     padding: 1.5rem;
@@ -407,7 +403,7 @@
   }
 
   .faq-item {
-    background: white;
+    background: var(--paper-warm);
     border: 1px solid var(--line);
     border-radius: 1rem;
     overflow: hidden;
@@ -446,19 +442,21 @@
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: var(--paper-warm);
+    background: var(--paper);
     display: grid;
     place-items: center;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: 'JetBrains Mono', monospace;
     font-weight: 600;
     color: var(--ink);
+    border: 1px solid var(--line-strong);
   }
 
   .faq-item.open .faq-toggle {
     background: var(--ink);
     color: var(--accent);
     transform: rotate(45deg);
+    border-color: var(--ink);
   }
 
   .faq-answer {
@@ -489,11 +487,12 @@
 
   .faq-answer-inner code {
     font-family: 'JetBrains Mono', monospace;
-    background: var(--paper-warm);
+    background: var(--paper);
     padding: 0.15rem 0.4rem;
     border-radius: 4px;
     font-size: 0.92em;
     color: var(--ink);
+    border: 1px solid var(--line-strong);
   }
 
   /* Code block */
@@ -513,8 +512,8 @@
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(9, 225, 193, 0.1);
+    border: 1px solid rgba(9, 225, 193, 0.3);
     color: var(--paper);
     padding: 0.3rem 0.6rem;
     border-radius: 6px;
@@ -607,7 +606,7 @@
   .timeline-event.active::before {
     background: var(--accent);
     border-color: var(--accent);
-    box-shadow: 0 0 0 4px rgba(0, 212, 170, 0.2);
+    box-shadow: 0 0 0 4px rgba(9, 225, 193, 0.2);
   }
 
   .timeline-time {
@@ -682,7 +681,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1.25rem 1.5rem;
-    background: white;
+    background: var(--paper);
     border: 1px solid var(--line-strong);
     border-radius: 1rem;
     font-family: inherit;
@@ -711,48 +710,13 @@
     margin-top: 0.15rem;
   }
 
-  /* === Responsive === */
-  @media (max-width: 768px) {
-    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
-    .quick-tags-label { width: 100%; margin-bottom: 0.5rem; }
-  }
-
-  /* === Reveal animation === */
-  @keyframes reveal {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .reveal {
-    animation: reveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
-  }
-
-  .delay-1 { animation-delay: 0.1s; }
-  .delay-2 { animation-delay: 0.2s; }
-  .delay-3 { animation-delay: 0.3s; }
-
-  /* No results state */
-  .no-results {
-    text-align: center;
-    padding: 3rem 1.5rem;
-    color: var(--ink-soft);
-    font-style: italic;
-    display: none;
-  }
-
-  .no-results.show {
-    display: block;
-  }
-
-  .hidden { display: none !important; }
-
-  /* Smart suggestions */
+  /* === Smart suggestions === */
   .search-suggestions {
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    background: white;
+    background: var(--paper);
     border: 1px solid var(--line-strong);
     border-top: none;
     border-radius: 0 0 1rem 1rem;
@@ -760,6 +724,7 @@
     overflow: hidden;
     transition: max-height 0.3s;
     z-index: 100;
+    box-shadow: var(--shadow-md);
   }
 
   .search-suggestions.show {
@@ -782,10 +747,77 @@
     border-bottom: none;
   }
 
-  .suggestion-highlight {
-    color: var(--accent);
-    font-weight: 600;
+  /* === Responsive === */
+  @media (max-width: 768px) {
+    header {
+      padding: 1rem 5vw;
+    }
+
+    .header-inner {
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      margin-left: auto;
+    }
+
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .quick-tags-label { width: 100%; margin-bottom: 0.5rem; }
+
+    .hero h1 {
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+
+    .section {
+      padding: 2rem 5vw;
+    }
+
+    .actions {
+      padding: 2rem 5vw;
+    }
   }
+
+  @media (max-width: 640px) {
+    .actions-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section {
+      padding: 1.5rem 4vw;
+    }
+
+    .timeline-events {
+      padding-left: 2rem;
+    }
+
+    .timeline-events::before {
+      left: 0.5rem;
+    }
+
+    .timeline-event::before {
+      left: -1.5rem;
+    }
+  }
+
+  /* No results state */
+  .no-results {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--ink-soft);
+    font-style: italic;
+    display: none;
+  }
+
+  .no-results.show {
+    display: block;
+  }
+
+  .hidden { display: none !important; }
 </style>
 </head>
 <body>
@@ -794,26 +826,7 @@
   <div class="header-inner">
     <div class="brand">
       <div class="brand-logo">
-        <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-          <!-- SiPho Text -->
-          <text x="0" y="28" font-family="Arial, sans-serif" font-size="32" font-weight="900" fill="#000">SiPho</text>
-          
-          <!-- X Logo (colorful cross) -->
-          <g transform="translate(82, 15)">
-            <!-- Orange part -->
-            <path d="M -4 -4 L 4 4" stroke="#FF6B35" stroke-width="4" stroke-linecap="round"/>
-            <!-- Teal part -->
-            <path d="M 4 -4 L -4 4" stroke="#00BFA5" stroke-width="4" stroke-linecap="round"/>
-            <!-- Yellow accent -->
-            <circle cx="0" cy="0" r="6" fill="none" stroke="#FFD700" stroke-width="2" opacity="0.6"/>
-          </g>
-          
-          <!-- HEALTH Text -->
-          <text x="75" y="28" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#000">HEALTH</text>
-          
-          <!-- Underline -->
-          <line x1="75" y1="32" x2="120" y2="32" stroke="#00BFA5" stroke-width="2"/>
-        </svg>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 40' preserveAspectRatio='xMidYMid meet'%3E%3Ctext x='0' y='28' font-family='system-ui, -apple-system, sans-serif' font-size='26' font-weight='900' fill='%230a1628'%3ESiPhox%3C/text%3E%3Ctext x='95' y='28' font-family='system-ui, -apple-system, sans-serif' font-size='12' font-weight='700' fill='%230a1628'%3EHEALTH%3C/text%3E%3Cpath d='M110 8 L120 22 M120 8 L110 22' stroke='%2309e1c1' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='95' y1='32' x2='125' y2='32' stroke='%2309e1c1' stroke-width='2'/%3E%3C/svg%3E" alt="SiPhox Health">
       </div>
     </div>
     <div class="status-pill">
@@ -825,15 +838,13 @@
 
 <section class="hero">
   <div class="hero-inner">
-    <div class="reveal">
-      <h1>From Outlook to Gmail.<br><em>Smoothly.</em><br><strong>Together.</strong></h1>
-      <p class="hero-subtitle">Everything you need to know about your move from Microsoft 365 to Google Workspace. Search a question, follow a guide, or skim the timeline. We've got you.</p>
-    </div>
+    <h1>From Outlook to Gmail. <em>Smoothly. Together.</em></h1>
+    <p class="hero-subtitle">Everything you need to know about your move from Microsoft 365 to Google Workspace. Search a question, follow a guide, or skim the timeline. We've got you.</p>
   </div>
 </section>
 
 <section class="search-section">
-  <div class="search-inner reveal delay-2">
+  <div class="search-inner">
     <div style="position: relative;">
       <div class="search-wrap">
         <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -845,7 +856,7 @@
       <div class="search-suggestions" id="suggestions"></div>
     </div>
     <div class="quick-tags">
-      <span class="quick-tags-label">Quick start</span>
+      <span class="quick-tags-label">Try</span>
       <button class="tag" data-search="login">First login</button>
       <button class="tag" data-search="folder label">Folders → labels</button>
       <button class="tag" data-search="filter">Filters / rules</button>
@@ -859,19 +870,19 @@
   <div class="actions-inner">
     <div class="section-label">Quick start</div>
     <div class="actions-grid">
-      <button class="action-card reveal delay-1" data-jump="login">
+      <button class="action-card" data-jump="login">
         <div class="action-num">01 / Sign-in</div>
         <h3 class="action-title">Sign in for the first time</h3>
         <p class="action-desc">Three steps. Set your password. You're in.</p>
         <div class="action-arrow">↗</div>
       </button>
-      <button class="action-card reveal delay-2" data-jump="labels">
+      <button class="action-card" data-jump="labels">
         <h3 class="action-title">Find your old folders</h3>
         <p class="action-desc">They're now Gmail labels. Same structure, click the sidebar.</p>
         <div class="action-num">02 / Inbox 101</div>
         <div class="action-arrow">↗</div>
       </button>
-      <button class="action-card reveal delay-3" data-jump="filters">
+      <button class="action-card" data-jump="filters">
         <h3 class="action-title">Recreate your rules</h3>
         <p class="action-desc">Outlook rules don't migrate. Set up Gmail filters in 4 clicks.</p>
         <div class="action-num">03 / Automation</div>
@@ -1265,7 +1276,7 @@ Clients
       <p>We're around. The fastest answers come from a quick DM — for anything urgent, ping us in #it-help.</p>
     </div>
     <div class="footer-cta">
-      <a class="cta-btn" href="https://siphox.slack.com/archives/" target="_blank">
+      <a class="cta-btn" href="https://siphox.slack.com/archives/" target="_parent">
         <div>
           <div class="cta-btn-label">DM Eva or Pavel</div>
           <div class="cta-btn-detail">Slack · 5–10 min response</div>
